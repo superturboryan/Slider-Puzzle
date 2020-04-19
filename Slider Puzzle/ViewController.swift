@@ -33,6 +33,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var bestLabel: UILabel!
+ 
+    let kHighScore = "highScore"
     
     let separatorSize: CGFloat = 12
     var squareSize: CGFloat = 0
@@ -56,21 +59,28 @@ class ViewController: UIViewController {
         containerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
+        
+        if (UserDefaults.standard.integer(forKey: "highScore") != 0) {
+            bestLabel.text = "Best: \(UserDefaults.standard.integer(forKey: "highScore"))"
+            bestLabel.isHidden = false
+        }
     }
     
     func setupGameBoard() {
-        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
-        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
+//        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
+//        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
+//        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
+//
+//        addSquare(toPosition: Position(x:0,y:2))
+//        addSquare(toPosition: Position(x:1,y:2))
+//        addSquare(toPosition: Position(x:2,y:2))
+//        addSquare(toPosition: Position(x:3,y:2))
+//        addSquare(toPosition: Position(x:0,y:3))
+//        addSquare(toPosition: Position(x:3,y:3))
+//        addSquare(toPosition: Position(x:0,y:4))
+//        addSquare(toPosition: Position(x:3,y:4))
+        
         addBigSquare(toPosition: Position(x:1,y:0))
-        addSquare(toPosition: Position(x:0,y:2))
-        addSquare(toPosition: Position(x:1,y:2))
-        addSquare(toPosition: Position(x:2,y:2))
-        addSquare(toPosition: Position(x:3,y:2))
-        addSquare(toPosition: Position(x:0,y:3))
-        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-        addSquare(toPosition: Position(x:3,y:3))
-        addSquare(toPosition: Position(x:0,y:4))
-        addSquare(toPosition: Position(x:3,y:4))
     }
     
     func getCGPointForPosition(_ pos:Position) -> CGPoint {
@@ -204,7 +214,9 @@ class ViewController: UIViewController {
             getPositionFromView(view).x == 1 &&
             getPositionFromView(view).y == 3 &&
             direction == .down) {
+            incrementMoveCountLabel()
             animateWinningPiece(view)
+            userBeatLevel()
             return
         }
         
@@ -311,9 +323,16 @@ class ViewController: UIViewController {
                                relativeDuration: 0.2) {
                 view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             }
-        }) { (finished) in
-            self.tappedReset(UIButton())
+        }) { (finished) in self.tappedReset(UIButton())}
+    }
+    
+    func userBeatLevel() {
+        let currentBest = UserDefaults.standard.integer(forKey: kHighScore)
+        if (moveCount < currentBest || currentBest == 0) {
+            UserDefaults.standard.set(moveCount, forKey: kHighScore)
+            bestLabel.text = "Best: \(moveCount)"
         }
+        bestLabel.isHidden = false
     }
     
     func incrementMoveCountLabel() {
@@ -322,6 +341,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedReset(_ sender: UIButton) {
+        if (moveCount == 0) {
+            UserDefaults.standard.set(0, forKey: kHighScore)
+            bestLabel.isHidden = true
+            return
+        }
+        
         containerView.subviews.forEach { (view) in
             view.removeFromSuperview()
         }

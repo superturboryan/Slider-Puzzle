@@ -63,21 +63,30 @@
                                     <action selector="tappedReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KyM-PN-b2W"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEc-Xr-69c">
+                                <rect key="frame" x="152" y="613" width="71" height="27"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4FJ-eQ-gGt"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8ig-dD-sGg"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="top" secondItem="36x-Zv-vSS" secondAttribute="bottom" constant="20" id="APY-t4-DEy"/>
+                            <constraint firstItem="JEc-Xr-69c" firstAttribute="top" secondItem="nRK-NL-rBO" secondAttribute="bottom" constant="20" id="I5i-yv-f7U"/>
                             <constraint firstItem="nRK-NL-rBO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KRT-O4-xg0"/>
                             <constraint firstItem="nRK-NL-rBO" firstAttribute="top" secondItem="K0E-Yr-BUq" secondAttribute="bottom" constant="20" id="jxN-ja-IUg"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kFr-MS-TCQ"/>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vX7-NA-0bs"/>
                             <constraint firstItem="36x-Zv-vSS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yF2-6p-ONS"/>
+                            <constraint firstItem="JEc-Xr-69c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zrA-qy-OpW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="bestLabel" destination="JEc-Xr-69c" id="bB2-uf-2Er"/>
                         <outlet property="containerBorder" destination="K0E-Yr-BUq" id="VQv-zA-L3S"/>
                         <outlet property="containerView" destination="tqB-Wo-fxh" id="cS6-va-PkH"/>
                         <outlet property="moveCountLabel" destination="36x-Zv-vSS" id="XZG-7z-lvE"/>
