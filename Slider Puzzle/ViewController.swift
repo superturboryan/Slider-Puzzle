@@ -67,18 +67,18 @@ class ViewController: UIViewController {
     }
     
     func setupGameBoard() {
-//        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
-//        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
-//        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-//
-//        addSquare(toPosition: Position(x:0,y:2))
-//        addSquare(toPosition: Position(x:1,y:2))
-//        addSquare(toPosition: Position(x:2,y:2))
-//        addSquare(toPosition: Position(x:3,y:2))
-//        addSquare(toPosition: Position(x:0,y:3))
-//        addSquare(toPosition: Position(x:3,y:3))
-//        addSquare(toPosition: Position(x:0,y:4))
-//        addSquare(toPosition: Position(x:3,y:4))
+        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
+        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
+        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
+
+        addSquare(toPosition: Position(x:0,y:2))
+        addSquare(toPosition: Position(x:1,y:2))
+        addSquare(toPosition: Position(x:2,y:2))
+        addSquare(toPosition: Position(x:3,y:2))
+        addSquare(toPosition: Position(x:0,y:3))
+        addSquare(toPosition: Position(x:3,y:3))
+        addSquare(toPosition: Position(x:0,y:4))
+        addSquare(toPosition: Position(x:3,y:4))
         
         addBigSquare(toPosition: Position(x:1,y:0))
     }
@@ -261,7 +261,7 @@ class ViewController: UIViewController {
     
     func moveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
         return isFrameInContainer(newFrame) &&
-               !isPieceTouchingOtherPiece(view)
+               !isPieceTouchingOtherPiece(view, ifMovedToNewFrame: newFrame)
     }
     
     func isFrameInContainer(_ frame:CGRect) -> Bool {
@@ -272,10 +272,10 @@ class ViewController: UIViewController {
         return true
     }
     
-    func isPieceTouchingOtherPiece(_ piece:UIView) -> Bool {
+    func isPieceTouchingOtherPiece(_ piece:UIView, ifMovedToNewFrame newFrame:CGRect) -> Bool {
         var touching = false
         containerView.subviews.forEach { (viewToCheck) in // Check that new frame does not overlap with any existing pieces
-            if (viewToCheck.frame.intersects(piece.frame) &&
+            if (viewToCheck.frame.intersects(newFrame) &&
                 viewToCheck != piece) {
                 print("Pieces will overlap, aborting movement!")
                 touching = true
