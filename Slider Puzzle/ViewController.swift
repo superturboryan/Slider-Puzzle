@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     }
     
     func setupView() {
-        squareSize = (containerView.bounds.size.width - ((gridWidth-1)*separatorSize)) / gridWidth
+        squareSize = (containerView.bounds.size.width - ((gridWidth+1)*separatorSize)) / gridWidth
         
         containerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
@@ -74,11 +74,11 @@ class ViewController: UIViewController {
     }
     
     func getXCoordinateForPosition(_ pos: Position) -> CGFloat {
-        return (CGFloat(pos.x) * squareSize) + (CGFloat(pos.x) * separatorSize)
+        return (CGFloat(pos.x) * squareSize) + (CGFloat(pos.x) * separatorSize) + separatorSize
     }
     
     func getYCoordinateForPosition(_ pos: Position) -> CGFloat {
-        return (CGFloat(pos.y) * squareSize) + (CGFloat(pos.y) * separatorSize)
+        return (CGFloat(pos.y) * squareSize) + (CGFloat(pos.y) * separatorSize) + separatorSize
     }
     
     func getPositionFromView(_ view: UIView) -> Position {
@@ -152,6 +152,7 @@ class ViewController: UIViewController {
     @objc func tappedView(_ tapper:UITapGestureRecognizer) {
         let position = getPositionFromView(tapper.view!)
         print(position.x,position.y)
+        shrinkExpandPiece(tapper.view!)
     }
     
     @objc func pannedView(_ recognizer: UIPanGestureRecognizer) {
@@ -252,15 +253,23 @@ class ViewController: UIViewController {
     }
     
     func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
-        UIView .animateKeyframes(withDuration: 0.45, delay: 0, options: .calculationModeCubic, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
-                view.frame = newFrame
+        
+        UIView .animateKeyframes(withDuration: 0.45,
+                                 delay: 0,
+                                 options: .calculationModeCubic,
+                                 animations: {
+
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1) {
+                view.frame = newFrame // Move to new frame position
             }
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.7) {
-                view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 0.7) {
+                view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Shrink
             }
-            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.3) {
-                view.transform = .identity
+            UIView.addKeyframe(withRelativeStartTime: 0.7,
+                               relativeDuration: 0.3) {
+                view.transform = .identity // Back to og
             }
         }) { (finished) in }
     }
@@ -281,7 +290,7 @@ class ViewController: UIViewController {
     
     func shrinkExpandPiece(_ view:UIView) {
         UIView.animate(withDuration: 0.3, delay: 0, options:.curveEaseOut, animations: {
-            view.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+            view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }) { (done) in
             UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
                 view.transform = .identity
