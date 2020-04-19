@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		94564873244B932F00C53951 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564872244B932F00C53951 /* AppDelegate.swift */; };
-		94564875244B932F00C53951 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564874244B932F00C53951 /* SceneDelegate.swift */; };
 		94564877244B932F00C53951 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564876244B932F00C53951 /* ViewController.swift */; };
 		9456487A244B932F00C53951 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94564878244B932F00C53951 /* Main.storyboard */; };
 		9456487C244B933000C53951 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9456487B244B933000C53951 /* Assets.xcassets */; };
 		9456487F244B933000C53951 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9456487D244B933000C53951 /* LaunchScreen.storyboard */; };
+		94564887244B981F00C53951 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564886244B981F00C53951 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9456486F244B932F00C53951 /* Slider Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slider Puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94564872244B932F00C53951 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		94564874244B932F00C53951 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		94564876244B932F00C53951 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		94564879244B932F00C53951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9456487B244B933000C53951 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9456487E244B933000C53951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94564880244B933000C53951 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94564886244B981F00C53951 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,12 +56,12 @@
 		94564871244B932F00C53951 /* Slider Puzzle */ = {
 			isa = PBXGroup;
 			children = (
+				94564886244B981F00C53951 /* SceneDelegate.swift */,
 				94564872244B932F00C53951 /* AppDelegate.swift */,
-				94564874244B932F00C53951 /* SceneDelegate.swift */,
 				94564876244B932F00C53951 /* ViewController.swift */,
 				94564878244B932F00C53951 /* Main.storyboard */,
-				9456487B244B933000C53951 /* Assets.xcassets */,
 				9456487D244B933000C53951 /* LaunchScreen.storyboard */,
+				9456487B244B933000C53951 /* Assets.xcassets */,
 				94564880244B933000C53951 /* Info.plist */,
 			);
 			path = "Slider Puzzle";
@@ -140,7 +140,7 @@
 			files = (
 				94564877244B932F00C53951 /* ViewController.swift in Sources */,
 				94564873244B932F00C53951 /* AppDelegate.swift in Sources */,
-				94564875244B932F00C53951 /* SceneDelegate.swift in Sources */,
+				94564887244B981F00C53951 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
