@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     
-    let separatorSize: CGFloat = 10
+    let separatorSize: CGFloat = 12
     var squareSize: CGFloat = 0
     
     let gridWidth: CGFloat = 4
@@ -46,8 +46,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupView()
-        self.setupGameBoard()
+        setupView()
+        setupGameBoard()
     }
     
     func setupView() {
@@ -59,26 +59,23 @@ class ViewController: UIViewController {
     }
     
     func setupGameBoard() {
-        self.addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
-        self.addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
-        self.addBigSquare(toPosition: Position(x:1,y:0))
-        self.addSquare(toPosition: Position(x:0,y:2))
-        self.addSquare(toPosition: Position(x:1,y:2))
-        self.addSquare(toPosition: Position(x:2,y:2))
-        self.addSquare(toPosition: Position(x:3,y:2))
-        self.addSquare(toPosition: Position(x:0,y:3))
-        self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-        self.addSquare(toPosition: Position(x:3,y:3))
-        self.addSquare(toPosition: Position(x:0,y:4))
-        self.addSquare(toPosition: Position(x:3,y:4))
+        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
+        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
+        addBigSquare(toPosition: Position(x:1,y:0))
+        addSquare(toPosition: Position(x:0,y:2))
+        addSquare(toPosition: Position(x:1,y:2))
+        addSquare(toPosition: Position(x:2,y:2))
+        addSquare(toPosition: Position(x:3,y:2))
+        addSquare(toPosition: Position(x:0,y:3))
+        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
+        addSquare(toPosition: Position(x:3,y:3))
+        addSquare(toPosition: Position(x:0,y:4))
+        addSquare(toPosition: Position(x:3,y:4))
     }
     
-    func getXCoordinateForPosition(_ pos: Position) -> CGFloat {
-        return (CGFloat(pos.x) * squareSize) + (CGFloat(pos.x) * separatorSize) + separatorSize
-    }
-    
-    func getYCoordinateForPosition(_ pos: Position) -> CGFloat {
-        return (CGFloat(pos.y) * squareSize) + (CGFloat(pos.y) * separatorSize) + separatorSize
+    func getCGPointForPosition(_ pos:Position) -> CGPoint {
+        return CGPoint(x: (CGFloat(pos.x) * squareSize) + (CGFloat(pos.x) * separatorSize) + separatorSize,
+                       y: (CGFloat(pos.y) * squareSize) + (CGFloat(pos.y) * separatorSize) + separatorSize)
     }
     
     func getPositionFromView(_ view: UIView) -> Position {
@@ -91,13 +88,15 @@ class ViewController: UIViewController {
     
     func addSquare(toPosition pos: Position) {
         let size = squareSize
-        let x = getXCoordinateForPosition(pos)
-        let y = getYCoordinateForPosition(pos)
-        let square = UIView(frame: CGRect(x: x, y: y, width: size, height: size))
+        let point = getCGPointForPosition(pos)
+        let square = UIView(frame: CGRect(x: point.x,
+                                          y: point.y,
+                                          width: size,
+                                          height: size))
         square.backgroundColor = .systemGreen
         square.layer.cornerRadius = 10.0
         
-        self.containerView.addSubview(square)
+        containerView.addSubview(square)
         
         addPieceToGrid(atPosition: pos, forType: .Square)
         
@@ -111,10 +110,11 @@ class ViewController: UIViewController {
     func addRect(toPosition pos:Position, withOrientation ori:Orientation) {
         let width = ori == Orientation.Vertical ? squareSize : (2*squareSize) + separatorSize
         let height = ori == Orientation.Vertical ? (2*squareSize) + separatorSize : squareSize
-        let x = getXCoordinateForPosition(pos)
-        let y = getYCoordinateForPosition(pos)
-        
-        let rect = UIView(frame: CGRect(x: x, y: y, width: width, height: height))
+        let point = getCGPointForPosition(pos)
+        let rect = UIView(frame: CGRect(x: point.x,
+                                        y: point.y,
+                                        width: width,
+                                        height: height))
         rect.backgroundColor = .systemRed
         rect.layer.cornerRadius = 10.0
         
@@ -131,10 +131,11 @@ class ViewController: UIViewController {
     
     func addBigSquare(toPosition pos:Position) {
         let size = (2*squareSize) + separatorSize
-        let x = getXCoordinateForPosition(pos)
-        let y = getYCoordinateForPosition(pos)
-        
-        let square = UIView(frame: CGRect(x: x, y: y, width: size, height: size))
+        let point = getCGPointForPosition(pos)
+        let square = UIView(frame: CGRect(x: point.x,
+                                          y: point.y,
+                                          width: size,
+                                          height: size))
         square.backgroundColor = .systemBlue
         square.layer.cornerRadius = 10.0
         
@@ -166,6 +167,11 @@ class ViewController: UIViewController {
             break
         }
     }
+    
+    func isBigSquare(_ view:UIView) -> Bool {
+        return (view.frame.size.width == (2*squareSize) + separatorSize &&
+                view.frame.size.height == (2*squareSize) + separatorSize)
+    }
 
     func addPieceToGrid(atPosition pos:Position, forType type:Pieces) {
         switch(type) {
@@ -193,6 +199,14 @@ class ViewController: UIViewController {
     func move(_ view:UIView, inDirection direction:PanDirection) {
         
         let newFrame = getNewFrameForView(view, withDirection:direction)
+        
+        if (isBigSquare(view) && // Check if we're moving winning piece from wining position
+            getPositionFromView(view).x == 1 &&
+            getPositionFromView(view).y == 3 &&
+            direction == .down) {
+            animateWinningPiece(view)
+            return
+        }
         
         if (moveIsAllowed(forView: view, withNewFrame: newFrame)) {
             incrementMoveCountLabel()
@@ -234,22 +248,28 @@ class ViewController: UIViewController {
     }
     
     func moveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
-        var moveAllowed = true
-                
-        if (!containerView.frame.contains(containerView.convert(newFrame, to: nil))) { // Check container contains new frame
+        return isFrameInContainer(newFrame) &&
+               !isPieceTouchingOtherPiece(view)
+    }
+    
+    func isFrameInContainer(_ frame:CGRect) -> Bool {
+        if (!containerView.frame.contains(containerView.convert(frame, to: nil))) { // Check container contains new frame
             print("Cannot move piece off board, aborting movement!")
-            moveAllowed = false
+            return false
         }
-        
+        return true
+    }
+    
+    func isPieceTouchingOtherPiece(_ piece:UIView) -> Bool {
+        var touching = false
         containerView.subviews.forEach { (viewToCheck) in // Check that new frame does not overlap with any existing pieces
-            if (viewToCheck.frame.intersects(newFrame) &&
-                viewToCheck != view) {
+            if (viewToCheck.frame.intersects(piece.frame) &&
+                viewToCheck != piece) {
                 print("Pieces will overlap, aborting movement!")
-                moveAllowed = false
+                touching = true
             }
         }
-        
-        return moveAllowed
+        return touching
     }
     
     func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
@@ -272,6 +292,28 @@ class ViewController: UIViewController {
                 view.transform = .identity // Back to og
             }
         }) { (finished) in }
+    }
+    
+    func animateWinningPiece(_ view:UIView) {
+        UIView .animateKeyframes(withDuration: 1.0,
+                                 delay: 0,
+                                 options: .calculationModeCubic,
+                                 animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1.0) {
+                                view.frame = CGRect(x: view.frame.origin.x,
+                                                    y: view.frame.origin.y + 300,
+                                                    width: view.frame.size.width,
+                                                    height: view.frame.size.height)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 0.2) {
+                view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            }
+        }) { (finished) in
+            self.tappedReset(UIButton())
+        }
     }
     
     func incrementMoveCountLabel() {
