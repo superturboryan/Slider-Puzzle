@@ -15,6 +15,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36x-Zv-vSS">
+                                <rect key="frame" x="118.5" y="48.5" width="138.5" height="57.5"/>
+                                <string key="text">Move count:
+0</string>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0E-Yr-BUq" userLabel="Container Border">
                                 <rect key="frame" x="17.5" y="126" width="340" height="415"/>
                                 <subviews>
@@ -48,13 +56,17 @@
                         <constraints>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4FJ-eQ-gGt"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8ig-dD-sGg"/>
+                            <constraint firstItem="K0E-Yr-BUq" firstAttribute="top" secondItem="36x-Zv-vSS" secondAttribute="bottom" constant="20" id="APY-t4-DEy"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kFr-MS-TCQ"/>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vX7-NA-0bs"/>
+                            <constraint firstItem="36x-Zv-vSS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yF2-6p-ONS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="containerBorder" destination="K0E-Yr-BUq" id="VQv-zA-L3S"/>
                         <outlet property="containerView" destination="tqB-Wo-fxh" id="cS6-va-PkH"/>
+                        <outlet property="moveCountLabel" destination="36x-Zv-vSS" id="XZG-7z-lvE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

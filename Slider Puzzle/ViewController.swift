@@ -8,12 +8,18 @@
 
 import UIKit
 
-enum Orientation {
+public enum Orientation {
     case Vertical, Horizontal
 }
 
-enum Pieces {
+public enum Pieces {
     case Square, VRect, HRect, BigSquare, Empty
+}
+
+public enum PanDirection: Int {
+    case up, down, left, right, undefined
+    public var isVertical: Bool { return [.up, .down].contains(self) }
+    public var isHorizontal: Bool { return !isVertical }
 }
 
 struct Position {
@@ -23,7 +29,9 @@ struct Position {
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var moveCountLabel: UILabel!
     
     let separatorSize: CGFloat = 10
     var squareSize: CGFloat = 0
@@ -33,32 +41,34 @@ class ViewController: UIViewController {
     
     var grid: [[Pieces]] = Array(repeating: Array(repeating: .Empty, count: 5), count: 4) // 4 x 5 matrix
     
+    var moveCount = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
         self.setupGameBoard()
-//        self.addSquare(toPosition: Position(x: 0, y: 0))
     }
     
     func setupView() {
         squareSize = (containerView.bounds.size.width - ((gridWidth-1)*separatorSize)) / gridWidth
-
+        
         containerView.layer.cornerRadius = 10.0
+        containerBorder.layer.cornerRadius = 10.0
     }
     
     func setupGameBoard() {
         self.addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
         self.addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
-//        self.addBigSquare(toPosition: Position(x:1,y:0))
-//        self.addSquare(toPosition: Position(x:0,y:2))
-//        self.addSquare(toPosition: Position(x:1,y:2))
-//        self.addSquare(toPosition: Position(x:2,y:2))
-//        self.addSquare(toPosition: Position(x:3,y:2))
-//        self.addSquare(toPosition: Position(x:0,y:3))
-//        self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-//        self.addSquare(toPosition: Position(x:3,y:3))
-//        self.addSquare(toPosition: Position(x:0,y:4))
-//        self.addSquare(toPosition: Position(x:3,y:4))
+        self.addBigSquare(toPosition: Position(x:1,y:0))
+        self.addSquare(toPosition: Position(x:0,y:2))
+        self.addSquare(toPosition: Position(x:1,y:2))
+        self.addSquare(toPosition: Position(x:2,y:2))
+        self.addSquare(toPosition: Position(x:3,y:2))
+        self.addSquare(toPosition: Position(x:0,y:3))
+        self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
+        self.addSquare(toPosition: Position(x:3,y:3))
+        self.addSquare(toPosition: Position(x:0,y:4))
+        self.addSquare(toPosition: Position(x:3,y:4))
     }
     
     func getXCoordinateForPosition(_ pos: Position) -> CGFloat {
@@ -71,8 +81,8 @@ class ViewController: UIViewController {
     
     func getPositionFromView(_ view: UIView) -> Position {
         let originInContainer = containerView.convert(view.bounds.origin, from: view)
-        let x = Double(originInContainer.x / (squareSize + separatorSize))
-        let y = Double(originInContainer.y / (squareSize + separatorSize))
+        let x = originInContainer.x / (squareSize + separatorSize)
+        let y = originInContainer.y / (squareSize + separatorSize)
         
         return Position(x: Int(x), y: Int(y))
     }
@@ -179,9 +189,10 @@ class ViewController: UIViewController {
     
     func move(_ view:UIView, inDirection direction:PanDirection) {
         
-        let newFrame = self.getNewFrameForView(view, withDirection:direction)
+        let newFrame = getNewFrameForView(view, withDirection:direction)
         
-        if (checkMoveIsAllowed(forView: view, withNewFrame: newFrame)) {
+        if (moveIsAllowed(forView: view, withNewFrame: newFrame)) {
+            incrementMoveCountLabel()
             animatePiece(view, toNewFrame: newFrame)
         }
     }
@@ -208,9 +219,7 @@ class ViewController: UIViewController {
             newY = view.frame.origin.y
             break
         case .undefined:
-            newX = view.frame.origin.x
-            newY = view.frame.origin.y
-            break
+            return view.frame // If undefined, return OG frame
         }
         return CGRect(x: newX,
                       y: newY,
@@ -218,20 +227,15 @@ class ViewController: UIViewController {
                       height: view.frame.size.height)
     }
     
-    func checkMoveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
+    func moveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
         var moveAllowed = true
-        
-//        if (!containerView.frame.contains(containerView.convert(newFrame.origin, to: nil))) {
-//            print("Cannot move piece off board, aborting movement!")
-//            moveAllowed = false
-//        }
-        
-        if (!containerView.frame.contains(containerView.convert(newFrame, to: nil))) {
+                
+        if (!containerView.frame.contains(containerView.convert(newFrame, to: nil))) { // Check container contains new frame
             print("Cannot move piece off board, aborting movement!")
             moveAllowed = false
         }
         
-        containerView.subviews.forEach { (viewToCheck) in
+        containerView.subviews.forEach { (viewToCheck) in // Check that new frame does not overlap with any existing pieces
             if (viewToCheck.frame.intersects(newFrame) &&
                 viewToCheck != view) {
                 print("Pieces will overlap, aborting movement!")
@@ -250,12 +254,11 @@ class ViewController: UIViewController {
                         view.frame = newFrame
         }, completion: nil)
     }
-}
-
-public enum PanDirection: Int {
-    case up, down, left, right, undefined
-    public var isVertical: Bool { return [.up, .down].contains(self) }
-    public var isHorizontal: Bool { return !isVertical }
+    
+    func incrementMoveCountLabel() {
+        moveCount += 1
+        moveCountLabel.attributedText = NSAttributedString(string: "Move count: \n\(moveCount)")
+    }
 }
 
 public extension UIPanGestureRecognizer {
