@@ -36,11 +36,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqB-Wo-fxh">
-                                <rect key="frame" x="37.5" y="146" width="300" height="375"/>
+                                <rect key="frame" x="37.5" y="144.5" width="300" height="378"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="T6g-k7-mTO"/>
-                                    <constraint firstAttribute="height" constant="375" id="e4Z-EF-rDV"/>
+                                    <constraint firstAttribute="height" constant="378" id="e4Z-EF-rDV"/>
                                 </constraints>
                             </view>
                         </subviews>

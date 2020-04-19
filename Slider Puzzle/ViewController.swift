@@ -49,16 +49,16 @@ class ViewController: UIViewController {
     func setupGameBoard() {
         self.addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
         self.addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
-        self.addBigSquare(toPosition: Position(x:1,y:0))
-        self.addSquare(toPosition: Position(x:0,y:2))
-        self.addSquare(toPosition: Position(x:1,y:2))
-        self.addSquare(toPosition: Position(x:2,y:2))
-        self.addSquare(toPosition: Position(x:3,y:2))
-        self.addSquare(toPosition: Position(x:0,y:3))
-        self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-        self.addSquare(toPosition: Position(x:3,y:3))
-        self.addSquare(toPosition: Position(x:0,y:4))
-        self.addSquare(toPosition: Position(x:3,y:4))
+//        self.addBigSquare(toPosition: Position(x:1,y:0))
+//        self.addSquare(toPosition: Position(x:0,y:2))
+//        self.addSquare(toPosition: Position(x:1,y:2))
+//        self.addSquare(toPosition: Position(x:2,y:2))
+//        self.addSquare(toPosition: Position(x:3,y:2))
+//        self.addSquare(toPosition: Position(x:0,y:3))
+//        self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
+//        self.addSquare(toPosition: Position(x:3,y:3))
+//        self.addSquare(toPosition: Position(x:0,y:4))
+//        self.addSquare(toPosition: Position(x:3,y:4))
     }
     
     func getXCoordinateForPosition(_ pos: Position) -> CGFloat {
@@ -179,10 +179,17 @@ class ViewController: UIViewController {
     
     func move(_ view:UIView, inDirection direction:PanDirection) {
         
+        let newFrame = self.getNewFrameForView(view, withDirection:direction)
+        
+        if (checkMoveIsAllowed(forView: view, withNewFrame: newFrame)) {
+            animatePiece(view, toNewFrame: newFrame)
+        }
+    }
+    
+    func getNewFrameForView(_ view:UIView, withDirection direction:PanDirection) -> CGRect {
         var newX: CGFloat
         var newY: CGFloat
         let distance = squareSize + separatorSize
-        
         switch (direction) {
         case .up:
             newX = view.frame.origin.x
@@ -205,17 +212,21 @@ class ViewController: UIViewController {
             newY = view.frame.origin.y
             break
         }
-        
-        let newFrame = CGRect(x: newX,
-                              y: newY,
-                              width: view.frame.size.width,
-                              height: view.frame.size.height)
-        
+        return CGRect(x: newX,
+                      y: newY,
+                      width: view.frame.size.width,
+                      height: view.frame.size.height)
+    }
+    
+    func checkMoveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
         var moveAllowed = true
         
+//        if (!containerView.frame.contains(containerView.convert(newFrame.origin, to: nil))) {
+//            print("Cannot move piece off board, aborting movement!")
+//            moveAllowed = false
+//        }
         
-        
-        if (!containerView.frame.contains(containerView.convert(newFrame.origin, to: nil))) {
+        if (!containerView.frame.contains(containerView.convert(newFrame, to: nil))) {
             print("Cannot move piece off board, aborting movement!")
             moveAllowed = false
         }
@@ -228,14 +239,16 @@ class ViewController: UIViewController {
             }
         }
         
-        if (moveAllowed) {
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: .curveEaseOut,
-                           animations: {
-                view.frame = newFrame
-            }, completion: nil)
-        }
+        return moveAllowed
+    }
+    
+    func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseOut,
+                       animations: {
+                        view.frame = newFrame
+        }, completion: nil)
     }
 }
 
