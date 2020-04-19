@@ -51,12 +51,26 @@
                                     <constraint firstAttribute="height" constant="378" id="e4Z-EF-rDV"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nRK-NL-rBO">
+                                <rect key="frame" x="153" y="561" width="69" height="32"/>
+                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="tappedReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KyM-PN-b2W"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4FJ-eQ-gGt"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8ig-dD-sGg"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="top" secondItem="36x-Zv-vSS" secondAttribute="bottom" constant="20" id="APY-t4-DEy"/>
+                            <constraint firstItem="nRK-NL-rBO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KRT-O4-xg0"/>
+                            <constraint firstItem="nRK-NL-rBO" firstAttribute="top" secondItem="K0E-Yr-BUq" secondAttribute="bottom" constant="20" id="jxN-ja-IUg"/>
                             <constraint firstItem="K0E-Yr-BUq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kFr-MS-TCQ"/>
                             <constraint firstItem="tqB-Wo-fxh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vX7-NA-0bs"/>
                             <constraint firstItem="36x-Zv-vSS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yF2-6p-ONS"/>
@@ -67,6 +81,7 @@
                         <outlet property="containerBorder" destination="K0E-Yr-BUq" id="VQv-zA-L3S"/>
                         <outlet property="containerView" destination="tqB-Wo-fxh" id="cS6-va-PkH"/>
                         <outlet property="moveCountLabel" destination="36x-Zv-vSS" id="XZG-7z-lvE"/>
+                        <outlet property="resetButton" destination="nRK-NL-rBO" id="1ft-lm-N95"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

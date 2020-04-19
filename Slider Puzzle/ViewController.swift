@@ -32,6 +32,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var moveCountLabel: UILabel!
+    @IBOutlet weak var resetButton: UIButton!
     
     let separatorSize: CGFloat = 10
     var squareSize: CGFloat = 0
@@ -54,6 +55,7 @@ class ViewController: UIViewController {
         
         containerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
+        resetButton.layer.cornerRadius = 5.0
     }
     
     func setupGameBoard() {
@@ -259,6 +261,16 @@ class ViewController: UIViewController {
         moveCount += 1
         moveCountLabel.attributedText = NSAttributedString(string: "Move count: \n\(moveCount)")
     }
+    
+    @IBAction func tappedReset(_ sender: UIButton) {
+        containerView.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
+        moveCount = -1
+        incrementMoveCountLabel()
+        setupGameBoard()
+    }
+    
 }
 
 public extension UIPanGestureRecognizer {
