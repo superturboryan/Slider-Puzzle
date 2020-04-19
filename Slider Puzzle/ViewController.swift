@@ -211,12 +211,31 @@ class ViewController: UIViewController {
                               width: view.frame.size.width,
                               height: view.frame.size.height)
         
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       options: .curveEaseOut,
-                       animations: {
-            view.frame = newFrame
-        }, completion: nil)
+        var moveAllowed = true
+        
+        
+        
+        if (!containerView.frame.contains(containerView.convert(newFrame.origin, to: nil))) {
+            print("Cannot move piece off board, aborting movement!")
+            moveAllowed = false
+        }
+        
+        containerView.subviews.forEach { (viewToCheck) in
+            if (viewToCheck.frame.intersects(newFrame) &&
+                viewToCheck != view) {
+                print("Pieces will overlap, aborting movement!")
+                moveAllowed = false
+            }
+        }
+        
+        if (moveAllowed) {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: .curveEaseOut,
+                           animations: {
+                view.frame = newFrame
+            }, completion: nil)
+        }
     }
 }
 
@@ -227,7 +246,6 @@ public enum PanDirection: Int {
 }
 
 public extension UIPanGestureRecognizer {
-    
     var direction: PanDirection? {
         let velocity = self.velocity(in: view)
         let isVertical = abs(velocity.y) > abs(velocity.x)
