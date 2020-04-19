@@ -36,10 +36,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
-//        self.setupGameBoard()
-        self.addSquare(toPosition: Position(x: 0, y: 0))
-        
-        self.addSquare(toPosition: Position(x: 3, y: 4))
+        self.setupGameBoard()
+//        self.addSquare(toPosition: Position(x: 0, y: 0))
     }
     
     func setupView() {
@@ -58,7 +56,6 @@ class ViewController: UIViewController {
         self.addSquare(toPosition: Position(x:3,y:2))
         self.addSquare(toPosition: Position(x:0,y:3))
         self.addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-        self.addSquare(toPosition: Position(x:0,y:3))
         self.addSquare(toPosition: Position(x:3,y:3))
         self.addSquare(toPosition: Position(x:0,y:4))
         self.addSquare(toPosition: Position(x:3,y:4))
@@ -115,6 +112,9 @@ class ViewController: UIViewController {
         
         let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
         rect.addGestureRecognizer(tapper)
+        
+        let panner = UIPanGestureRecognizer(target: self, action: #selector(pannedView(_:)))
+        rect.addGestureRecognizer(panner)
     }
     
     func addBigSquare(toPosition pos:Position) {
@@ -132,6 +132,9 @@ class ViewController: UIViewController {
         
         let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
         square.addGestureRecognizer(tapper)
+        
+        let panner = UIPanGestureRecognizer(target: self, action: #selector(pannedView(_:)))
+        square.addGestureRecognizer(panner)
     }
     
     @objc func tappedView(_ tapper:UITapGestureRecognizer) {
