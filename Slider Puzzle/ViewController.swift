@@ -197,6 +197,9 @@ class ViewController: UIViewController {
             incrementMoveCountLabel()
             animatePiece(view, toNewFrame: newFrame)
         }
+        else {
+            shrinkExpandPiece(view)
+        }
     }
     
     func getNewFrameForView(_ view:UIView, withDirection direction:PanDirection) -> CGRect {
@@ -249,12 +252,17 @@ class ViewController: UIViewController {
     }
     
     func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       options: .curveEaseOut,
-                       animations: {
-                        view.frame = newFrame
-        }, completion: nil)
+        UIView .animateKeyframes(withDuration: 0.45, delay: 0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+                view.frame = newFrame
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.7) {
+                view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.3) {
+                view.transform = .identity
+            }
+        }) { (finished) in }
     }
     
     func incrementMoveCountLabel() {
@@ -271,6 +279,15 @@ class ViewController: UIViewController {
         setupGameBoard()
     }
     
+    func shrinkExpandPiece(_ view:UIView) {
+        UIView.animate(withDuration: 0.3, delay: 0, options:.curveEaseOut, animations: {
+            view.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        }) { (done) in
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+                view.transform = .identity
+            }) { (done) in }
+        }
+    }
 }
 
 public extension UIPanGestureRecognizer {
