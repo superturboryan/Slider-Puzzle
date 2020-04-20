@@ -60,10 +60,7 @@ class ViewController: UIViewController {
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
         
-        if (UserDefaults.standard.integer(forKey: "highScore") != 0) {
-            bestLabel.text = "Best: \(UserDefaults.standard.integer(forKey: "highScore"))"
-            bestLabel.isHidden = false
-        }
+        updateBestLabel()
     }
     
     func setupGameBoard() {
@@ -146,7 +143,7 @@ class ViewController: UIViewController {
                                           y: point.y,
                                           width: size,
                                           height: size))
-        square.backgroundColor = .systemBlue
+        square.backgroundColor = .systemIndigo
         square.layer.cornerRadius = 10.0
         
         self.containerView.addSubview(square)
@@ -286,7 +283,7 @@ class ViewController: UIViewController {
     
     func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
         
-        UIView .animateKeyframes(withDuration: 0.45,
+        UIView .animateKeyframes(withDuration: 0.4,
                                  delay: 0,
                                  options: .calculationModeCubic,
                                  animations: {
@@ -303,7 +300,9 @@ class ViewController: UIViewController {
                                relativeDuration: 0.3) {
                 view.transform = .identity // Back to og
             }
-        }) { (finished) in }
+        }) { (finished) in
+            HapticsHelper.impact(withType: .soft)
+        }
     }
     
     func animateWinningPiece(_ view:UIView) {
@@ -330,9 +329,17 @@ class ViewController: UIViewController {
         let currentBest = UserDefaults.standard.integer(forKey: kHighScore)
         if (moveCount < currentBest || currentBest == 0) {
             UserDefaults.standard.set(moveCount, forKey: kHighScore)
-            bestLabel.text = "Best: \(moveCount)"
         }
-        bestLabel.isHidden = false
+        updateBestLabel()
+    }
+    
+    func updateBestLabel() {
+        if (UserDefaults.standard.integer(forKey: "highScore") == 0) {
+            bestLabel.attributedText = NSAttributedString(string: "Best: \nNone 😩")
+        }
+        else {
+            bestLabel.attributedText = NSAttributedString(string: "Best: \n\(moveCount)")
+        }
     }
     
     func incrementMoveCountLabel() {
@@ -343,7 +350,7 @@ class ViewController: UIViewController {
     @IBAction func tappedReset(_ sender: UIButton) {
         if (moveCount == 0) {
             UserDefaults.standard.set(0, forKey: kHighScore)
-            bestLabel.isHidden = true
+            updateBestLabel()
             return
         }
         
@@ -356,10 +363,11 @@ class ViewController: UIViewController {
     }
     
     func shrinkExpandPiece(_ view:UIView) {
-        UIView.animate(withDuration: 0.3, delay: 0, options:.curveEaseOut, animations: {
+        HapticsHelper.notification(withType: .warning)
+        UIView.animate(withDuration: 0.25, delay: 0, options:.curveEaseOut, animations: {
             view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }) { (done) in
-            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
                 view.transform = .identity
             }) { (done) in }
         }
