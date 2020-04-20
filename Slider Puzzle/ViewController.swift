@@ -60,6 +60,7 @@ class ViewController: UIViewController {
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
         
+        self.moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
         updateBestLabel()
     }
     
@@ -334,23 +335,19 @@ class ViewController: UIViewController {
     }
     
     func updateBestLabel() {
-        if (UserDefaults.standard.integer(forKey: "highScore") == 0) {
-            bestLabel.attributedText = NSAttributedString(string: "Best: \nNone 😩")
-        }
-        else {
-            bestLabel.attributedText = NSAttributedString(string: "Best: \n\(moveCount)")
-        }
+        bestLabel.attributedText = (UserDefaults.standard.integer(forKey: "highScore") == 0) ?
+            NSAttributedString(string: "Best: \n🚫😩") :
+            NSAttributedString(string: "Best: \n\(UserDefaults.standard.integer(forKey: kHighScore))")
     }
     
     func incrementMoveCountLabel() {
         moveCount += 1
-        moveCountLabel.attributedText = NSAttributedString(string: "Move count: \n\(moveCount)")
+        moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
     }
     
     @IBAction func tappedReset(_ sender: UIButton) {
         if (moveCount == 0) {
-            UserDefaults.standard.set(0, forKey: kHighScore)
-            updateBestLabel()
+            resetBestPopup()
             return
         }
         
@@ -360,6 +357,20 @@ class ViewController: UIViewController {
         moveCount = -1
         incrementMoveCountLabel()
         setupGameBoard()
+    }
+    
+    func resetBestPopup() {
+        let alertVC = UIAlertController(title: "Reset best score", message: "Are you sure you want to do that?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (action) in
+            UserDefaults.standard.set(0, forKey: self.kHighScore)
+            self.updateBestLabel()
+            alertVC.dismiss(animated: true, completion: nil)
+        }
+        let noAction = UIAlertAction(title: "No", style: .cancel) { (action) in
+            alertVC.dismiss(animated: true, completion: nil)
+        }
+        alertVC.addAction(yesAction); alertVC.addAction(noAction);
+        present(alertVC, animated: true, completion: nil)
     }
     
     func shrinkExpandPiece(_ view:UIView) {
