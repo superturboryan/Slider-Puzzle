@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		94229455244D1F4A00404149 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94229454244D1F4A00404149 /* HapticsHelper.swift */; };
+		9446C588248426B900DEEAFA /* GameBoards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9446C587248426B900DEEAFA /* GameBoards.swift */; };
+		9446C58A2484274800DEEAFA /* GridPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9446C5892484274800DEEAFA /* GridPiece.swift */; };
 		94564873244B932F00C53951 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564872244B932F00C53951 /* AppDelegate.swift */; };
 		94564877244B932F00C53951 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564876244B932F00C53951 /* ViewController.swift */; };
 		9456487A244B932F00C53951 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94564878244B932F00C53951 /* Main.storyboard */; };
@@ -18,6 +20,9 @@
 
 /* Begin PBXFileReference section */
 		94229454244D1F4A00404149 /* HapticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsHelper.swift; sourceTree = "<group>"; };
+		94433A29244FC065000AB8CE /* Slider Puzzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Slider Puzzle.entitlements"; sourceTree = "<group>"; };
+		9446C587248426B900DEEAFA /* GameBoards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoards.swift; sourceTree = "<group>"; };
+		9446C5892484274800DEEAFA /* GridPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPiece.swift; sourceTree = "<group>"; };
 		9456486F244B932F00C53951 /* Slider Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slider Puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94564872244B932F00C53951 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94564876244B932F00C53951 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +63,7 @@
 		94564871244B932F00C53951 /* Slider Puzzle */ = {
 			isa = PBXGroup;
 			children = (
+				94433A29244FC065000AB8CE /* Slider Puzzle.entitlements */,
 				94564886244B981F00C53951 /* SceneDelegate.swift */,
 				94564872244B932F00C53951 /* AppDelegate.swift */,
 				94564876244B932F00C53951 /* ViewController.swift */,
@@ -66,6 +72,8 @@
 				9456487B244B933000C53951 /* Assets.xcassets */,
 				94564880244B933000C53951 /* Info.plist */,
 				94229454244D1F4A00404149 /* HapticsHelper.swift */,
+				9446C587248426B900DEEAFA /* GameBoards.swift */,
+				9446C5892484274800DEEAFA /* GridPiece.swift */,
 			);
 			path = "Slider Puzzle";
 			sourceTree = "<group>";
@@ -141,9 +149,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9446C588248426B900DEEAFA /* GameBoards.swift in Sources */,
 				94564877244B932F00C53951 /* ViewController.swift in Sources */,
 				94564873244B932F00C53951 /* AppDelegate.swift in Sources */,
 				94229455244D1F4A00404149 /* HapticsHelper.swift in Sources */,
+				9446C58A2484274800DEEAFA /* GridPiece.swift in Sources */,
 				94564887244B981F00C53951 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +298,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Slider Puzzle/Slider Puzzle.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6MXF72738;
 				INFOPLIST_FILE = "Slider Puzzle/Info.plist";
@@ -298,6 +310,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RyanDF.Slider-Puzzle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -307,6 +320,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Slider Puzzle/Slider Puzzle.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6MXF72738;
 				INFOPLIST_FILE = "Slider Puzzle/Info.plist";
@@ -317,6 +332,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RyanDF.Slider-Puzzle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

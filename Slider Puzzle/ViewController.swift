@@ -9,11 +9,11 @@
 import UIKit
 
 public enum Orientation {
-    case Vertical, Horizontal
+    case Vertical, Horizontal, Single
 }
 
-public enum Pieces {
-    case Square, VRect, HRect, BigSquare, Empty
+public enum PieceType {
+    case Square, Rect, BigSquare, Empty
 }
 
 public enum PanDirection: Int {
@@ -29,8 +29,9 @@ struct Position {
 
 class ViewController: UIViewController {
     
+    // UI Outlets + Views
     @IBOutlet weak var containerBorder: UIView!
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var gameContainerView: UIView!
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var bestLabel: UILabel!
@@ -40,23 +41,25 @@ class ViewController: UIViewController {
     let separatorSize: CGFloat = 12
     var squareSize: CGFloat = 0
     
-    let gridWidth: CGFloat = 4
-    let gridHeight: CGFloat = 5
+    let gridWidthInSquares: CGFloat = 4
+    let gridHeightInSquares: CGFloat = 5
     
-    var grid: [[Pieces]] = Array(repeating: Array(repeating: .Empty, count: 5), count: 4) // 4 x 5 matrix
+    var grid: [[PieceType]] = Array(repeating: Array(repeating: .Empty, count: 5), count: 4) // 4 x 5 matrix
+    
+    var level: Int = 0
     
     var moveCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupGameBoard()
+        setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
     func setupView() {
-        squareSize = (containerView.bounds.size.width - ((gridWidth+1)*separatorSize)) / gridWidth
+        squareSize = (gameContainerView.bounds.size.width - ((gridWidthInSquares+1)*separatorSize)) / gridWidthInSquares
         
-        containerView.layer.cornerRadius = 10.0
+        gameContainerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
         
@@ -64,21 +67,16 @@ class ViewController: UIViewController {
         updateBestLabel()
     }
     
-    func setupGameBoard() {
-        addRect(toPosition: Position(x:0,y:0), withOrientation: .Vertical)
-        addRect(toPosition: Position(x:3,y:0), withOrientation: .Vertical)
-        addRect(toPosition: Position(x:1,y:3), withOrientation: .Horizontal)
-
-        addSquare(toPosition: Position(x:0,y:2))
-        addSquare(toPosition: Position(x:1,y:2))
-        addSquare(toPosition: Position(x:2,y:2))
-        addSquare(toPosition: Position(x:3,y:2))
-        addSquare(toPosition: Position(x:0,y:3))
-        addSquare(toPosition: Position(x:3,y:3))
-        addSquare(toPosition: Position(x:0,y:4))
-        addSquare(toPosition: Position(x:3,y:4))
+    func setupGameBoard(withGridPieces pieces:[GridPiece]) {
         
-        addBigSquare(toPosition: Position(x:1,y:0))
+        for piece in pieces {
+            switch (piece.type) {
+            case .Rect: addRect(toPosition: piece.position, withOrientation: piece.orientation); break;
+            case .BigSquare: addBigSquare(toPosition: piece.position); break;
+            case .Square: addSquare(toPosition: piece.position); break;
+            case .Empty: break;
+            }
+        }
     }
     
     func getCGPointForPosition(_ pos:Position) -> CGPoint {
@@ -87,7 +85,7 @@ class ViewController: UIViewController {
     }
     
     func getPositionFromView(_ view: UIView) -> Position {
-        let originInContainer = containerView.convert(view.bounds.origin, from: view)
+        let originInContainer = gameContainerView.convert(view.bounds.origin, from: view)
         let x = originInContainer.x / (squareSize + separatorSize)
         let y = originInContainer.y / (squareSize + separatorSize)
         
@@ -104,15 +102,9 @@ class ViewController: UIViewController {
         square.backgroundColor = .systemGreen
         square.layer.cornerRadius = 10.0
         
-        containerView.addSubview(square)
+        addGestureRecognizersToPiece(square)
         
-        addPieceToGrid(atPosition: pos, forType: .Square)
-        
-        let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
-        square.addGestureRecognizer(tapper)
-        
-        let panner = UIPanGestureRecognizer(target: self, action: #selector(pannedView(_:)))
-        square.addGestureRecognizer(panner)
+        gameContainerView.addSubview(square)
     }
 
     func addRect(toPosition pos:Position, withOrientation ori:Orientation) {
@@ -126,15 +118,9 @@ class ViewController: UIViewController {
         rect.backgroundColor = .systemRed
         rect.layer.cornerRadius = 10.0
         
-        self.containerView.addSubview(rect)
+        addGestureRecognizersToPiece(rect)
         
-        addPieceToGrid(atPosition: pos, forType: ori == .Vertical ? .VRect : .HRect)
-        
-        let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
-        rect.addGestureRecognizer(tapper)
-        
-        let panner = UIPanGestureRecognizer(target: self, action: #selector(pannedView(_:)))
-        rect.addGestureRecognizer(panner)
+        self.gameContainerView.addSubview(rect)
     }
     
     func addBigSquare(toPosition pos:Position) {
@@ -147,15 +133,17 @@ class ViewController: UIViewController {
         square.backgroundColor = .systemIndigo
         square.layer.cornerRadius = 10.0
         
-        self.containerView.addSubview(square)
+        addGestureRecognizersToPiece(square)
         
-        addPieceToGrid(atPosition: pos, forType: .BigSquare)
-        
+        self.gameContainerView.addSubview(square)
+    }
+    
+    func addGestureRecognizersToPiece(_ piece:UIView) {
         let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
-        square.addGestureRecognizer(tapper)
+        piece.addGestureRecognizer(tapper)
         
         let panner = UIPanGestureRecognizer(target: self, action: #selector(pannedView(_:)))
-        square.addGestureRecognizer(panner)
+        piece.addGestureRecognizer(panner)
     }
     
     @objc func tappedView(_ tapper:UITapGestureRecognizer) {
@@ -181,29 +169,6 @@ class ViewController: UIViewController {
                 view.frame.size.height == (2*squareSize) + separatorSize)
     }
 
-    func addPieceToGrid(atPosition pos:Position, forType type:Pieces) {
-        switch(type) {
-            case .Square:
-                self.grid[pos.x][pos.y] = .Square
-                break
-            case .BigSquare:
-                self.grid[pos.x][pos.y] = .BigSquare
-                self.grid[pos.x+1][pos.y] = .BigSquare
-                self.grid[pos.x][pos.y+1] = .BigSquare
-                self.grid[pos.x+1][pos.y+1] = .BigSquare
-                break
-            case .VRect:
-                self.grid[pos.x][pos.y] = .VRect
-                self.grid[pos.x][pos.y+1] = .VRect
-                break
-            case.HRect:
-                self.grid[pos.x][pos.y] = .HRect
-                self.grid[pos.x+1][pos.y] = .HRect
-                break
-            default: break;
-        }
-    }
-    
     func move(_ view:UIView, inDirection direction:PanDirection) {
         
         let newFrame = getNewFrameForView(view, withDirection:direction)
@@ -222,9 +187,7 @@ class ViewController: UIViewController {
             incrementMoveCountLabel()
             animatePiece(view, toNewFrame: newFrame)
         }
-        else {
-            shrinkExpandPiece(view)
-        }
+        else { shrinkExpandPiece(view) }
     }
     
     func getNewFrameForView(_ view:UIView, withDirection direction:PanDirection) -> CGRect {
@@ -263,7 +226,7 @@ class ViewController: UIViewController {
     }
     
     func isFrameInContainer(_ frame:CGRect) -> Bool {
-        if (!containerView.frame.contains(containerView.convert(frame, to: nil))) { // Check container contains new frame
+        if (!gameContainerView.frame.contains(gameContainerView.convert(frame, to: nil))) { // Check container contains new frame
             print("Cannot move piece off board, aborting movement!")
             return false
         }
@@ -272,7 +235,7 @@ class ViewController: UIViewController {
     
     func isPieceTouchingOtherPiece(_ piece:UIView, ifMovedToNewFrame newFrame:CGRect) -> Bool {
         var touching = false
-        containerView.subviews.forEach { (viewToCheck) in // Check that new frame does not overlap with any existing pieces
+        gameContainerView.subviews.forEach { (viewToCheck) in // Check that new frame does not overlap with any existing pieces
             if (viewToCheck.frame.intersects(newFrame) &&
                 viewToCheck != piece) {
                 print("Pieces will overlap, aborting movement!")
@@ -307,7 +270,7 @@ class ViewController: UIViewController {
     }
     
     func animateWinningPiece(_ view:UIView) {
-        UIView .animateKeyframes(withDuration: 1.0,
+        UIView.animateKeyframes(withDuration: 1.0,
                                  delay: 0,
                                  options: .calculationModeCubic,
                                  animations: {
@@ -351,12 +314,12 @@ class ViewController: UIViewController {
             return
         }
         
-        containerView.subviews.forEach { (view) in
+        gameContainerView.subviews.forEach { (view) in
             view.removeFromSuperview()
         }
         moveCount = -1
         incrementMoveCountLabel()
-        setupGameBoard()
+        setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
     func resetBestPopup() {
