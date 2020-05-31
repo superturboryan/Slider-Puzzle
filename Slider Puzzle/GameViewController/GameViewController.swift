@@ -42,11 +42,11 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setupView()
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
@@ -72,15 +72,16 @@ class GameViewController: UIViewController {
         
         self.levelLabel.text = "Level \(self.level)"
         
-        kHighScore = "highScore\(self.level)"
-        
         updateBestLabel()
     }
     
     func setupGameBoard(withGridPieces pieces:[GamePiece]) {
+        
         var delay: Double = 0.3
         
-        for piece in pieces {
+        let shuffled = pieces.shuffled()
+        
+        for piece in shuffled {
             switch (piece.type) {
                 case .Rect: self.addRect(toPosition: piece.position, withOrientation: piece.orientation, andDelay: delay); break;
                 case .BigSquare: self.addBigSquare(toPosition: piece.position, andDelay: delay); break;
@@ -352,17 +353,18 @@ class GameViewController: UIViewController {
     
     //MARK: Complete level
     func userBeatLevel() {
-        let currentBest = UserDefaults.standard.integer(forKey: kHighScore)
+        let currentBest = Settings.highScore(forLevel: self.level)
         if (moveCount < currentBest || currentBest == 0) {
-            UserDefaults.standard.set(moveCount, forKey: kHighScore)
+            Settings.setHighScore(forLevel: self.level, withNewValue: moveCount)
         }
         updateBestLabel()
     }
     
     func updateBestLabel() {
-        bestLabel.attributedText = (UserDefaults.standard.integer(forKey: kHighScore) == 0) ?
+        let highScore = Settings.highScore(forLevel: self.level)
+        bestLabel.attributedText = (highScore == 0) ?
             NSAttributedString(string: "Best: \n🚫😩") :
-            NSAttributedString(string: "Best: \n\(UserDefaults.standard.integer(forKey: kHighScore))")
+            NSAttributedString(string: "Best: \n\(highScore)")
     }
     
     func incrementMoveCountLabel() {
@@ -385,6 +387,10 @@ class GameViewController: UIViewController {
         moveCount = -1
         incrementMoveCountLabel()
         
+        self.gameTimer?.invalidate()
+        self.gameTime = 0
+        self.timerLabel.text = "Timer: \n0"
+        
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
@@ -396,7 +402,7 @@ class GameViewController: UIViewController {
     func resetBestPopup() {
         let alertVC = UIAlertController(title: "Reset best score", message: "Are you sure you want to do that?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (action) in
-            UserDefaults.standard.set(0, forKey: self.kHighScore)
+            Settings.setHighScore(forLevel: self.level, withNewValue: 0)
             self.updateBestLabel()
             alertVC.dismiss(animated: true, completion: nil)
         }

@@ -10,15 +10,22 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
+    @IBOutlet weak var darkModeSegmentControl: UISegmentedControl!
+    
     var selectedLevel: Int = 0
     
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.setupView()
     }
     
+    func setupView() {
+        
+        self.darkModeSegmentControl.selectedSegmentIndex = self.traitCollection.userInterfaceStyle == .dark ? 1 : 0
+        
+    }
 
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
