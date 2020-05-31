@@ -20,9 +20,13 @@ class GameViewController: UIViewController {
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var gameContainerView: UIView!
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var moveCountLabel: UILabel!
-    @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var bestLabel: UILabel!
+    @IBOutlet weak var resetButton: UIButton!
+    
+    var gameTimer: Timer?
+    var gameTime: Double = 0
  
     var kHighScore = "highScore" // Setup with level number in setupView
     
@@ -44,6 +48,17 @@ class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
+        restartTimer()
+    }
+    
+    func restartTimer() {
+        self.gameTime = 0
+        timerLabel.text = "Timer: \n\(Int(self.gameTime))"
+        
+        self.gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+            self.gameTime += 1
+            self.timerLabel.text = "Timer: \n\(Int(self.gameTime))"
+        })
     }
     
     func setupView() {
@@ -104,20 +119,7 @@ class GameViewController: UIViewController {
         
         addGestureRecognizersToPiece(square)
         
-        square.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
-        
-        self.gameContainerView.addSubview(square)
-        
-        UIView.animate(withDuration: 0.4,
-                       delay: delay,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0,
-                       options: .curveEaseOut,
-                       animations: {
-                        
-                        square.transform = CGAffineTransform.identity
-                        
-        }) { (success) in /* Add completion here */ }
+        self.popInGamePiece(square, withDelay: delay)
     }
 
     func addRect(toPosition pos:Position, withOrientation ori:Orientation, andDelay delay:Double) {
@@ -133,20 +135,7 @@ class GameViewController: UIViewController {
         
         addGestureRecognizersToPiece(rect)
         
-        rect.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
-        
-        self.gameContainerView.addSubview(rect)
-        
-        UIView.animate(withDuration: 0.4,
-                       delay: delay,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0,
-                       options: .curveEaseOut,
-                       animations: {
-            
-            rect.transform = CGAffineTransform.identity
-            
-        }) { (success) in /* Add completion here */ }
+        self.popInGamePiece(rect, withDelay: delay)
     }
     
     func addBigSquare(toPosition pos:Position, andDelay delay:Double) {
@@ -161,10 +150,12 @@ class GameViewController: UIViewController {
         
         addGestureRecognizersToPiece(square)
         
-        square.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
-        
-        self.gameContainerView.addSubview(square)
-        
+        self.popInGamePiece(square, withDelay: delay)
+    }
+    
+    func popInGamePiece(_ piece:UIView, withDelay delay:Double) {
+        self.gameContainerView.addSubview(piece)
+        piece.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
         UIView.animate(withDuration: 0.4,
                        delay: delay,
                        usingSpringWithDamping: 0.7,
@@ -172,7 +163,7 @@ class GameViewController: UIViewController {
                        options: .curveEaseOut,
                        animations: {
                         
-                        square.transform = CGAffineTransform.identity
+                        piece.transform = CGAffineTransform.identity
                         
         }) { (success) in /* Add completion here */ }
     }
@@ -375,6 +366,9 @@ class GameViewController: UIViewController {
         }
         moveCount = -1
         incrementMoveCountLabel()
+        
+        self.restartTimer()
+        
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
