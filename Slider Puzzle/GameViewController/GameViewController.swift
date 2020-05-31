@@ -48,7 +48,6 @@ class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
-        restartTimer()
     }
     
     func restartTimer() {
@@ -350,6 +349,8 @@ class GameViewController: UIViewController {
     }
     
     func incrementMoveCountLabel() {
+        if (moveCount == 0) { restartTimer() }
+        
         moveCount += 1
         moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
     }
@@ -366,8 +367,6 @@ class GameViewController: UIViewController {
         }
         moveCount = -1
         incrementMoveCountLabel()
-        
-        self.restartTimer()
         
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
