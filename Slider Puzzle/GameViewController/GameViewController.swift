@@ -85,7 +85,7 @@ class GameViewController: UIViewController {
                 case .Rect: self.addRect(toPosition: piece.position, withOrientation: piece.orientation, andDelay: delay); break;
                 case .BigSquare: self.addBigSquare(toPosition: piece.position, andDelay: delay); break;
                 case .Square: self.addSquare(toPosition: piece.position, andDelay: delay); break;
-                case .Empty: break;
+                case .Empty: self.addEmptySpot(toPosition: piece.position, andDelay: delay); break;
             }
             
             delay += 0.3
@@ -106,6 +106,21 @@ class GameViewController: UIViewController {
     }
     
     //MARK: Add pieces
+    func addEmptySpot(toPosition pos: Position, andDelay delay:Double) {
+        let size = squareSize
+        let point = getCGPointForPosition(pos)
+        let emptySpot = UIView(frame: CGRect(x: point.x,
+                                          y: point.y,
+                                          width: size,
+                                          height: size))
+        emptySpot.backgroundColor = .systemGray3
+        emptySpot.layer.cornerRadius = 10.0
+        
+//        addGestureRecognizersToPiece(emptySpot) // These spots are unmoveable
+        
+        self.popInGamePiece(emptySpot, withDelay: delay)
+    }
+    
     func addSquare(toPosition pos: Position, andDelay delay:Double) {
         let size = squareSize
         let point = getCGPointForPosition(pos)
@@ -151,6 +166,8 @@ class GameViewController: UIViewController {
         
         self.popInGamePiece(square, withDelay: delay)
     }
+    
+    
     
     func popInGamePiece(_ piece:UIView, withDelay delay:Double) {
         self.gameContainerView.addSubview(piece)
