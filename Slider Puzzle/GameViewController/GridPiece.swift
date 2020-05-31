@@ -8,7 +8,20 @@
 
 import UIKit
 
-class GridPiece: NSObject {
+public enum Orientation {
+    case Vertical, Horizontal, Single
+}
+
+public enum PieceType {
+    case Square, Rect, BigSquare, Empty
+}
+
+struct Position {
+    var x: Int
+    var y: Int
+}
+
+class GamePiece: NSObject {
     
     var position: Position
     var type: PieceType

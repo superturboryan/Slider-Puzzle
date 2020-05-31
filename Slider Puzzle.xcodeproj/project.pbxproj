@@ -10,8 +10,9 @@
 		94229455244D1F4A00404149 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94229454244D1F4A00404149 /* HapticsHelper.swift */; };
 		9446C588248426B900DEEAFA /* GameBoards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9446C587248426B900DEEAFA /* GameBoards.swift */; };
 		9446C58A2484274800DEEAFA /* GridPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9446C5892484274800DEEAFA /* GridPiece.swift */; };
+		9446C590248442E700DEEAFA /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9446C58F248442E700DEEAFA /* MenuViewController.swift */; };
 		94564873244B932F00C53951 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564872244B932F00C53951 /* AppDelegate.swift */; };
-		94564877244B932F00C53951 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564876244B932F00C53951 /* ViewController.swift */; };
+		94564877244B932F00C53951 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94564876244B932F00C53951 /* GameViewController.swift */; };
 		9456487A244B932F00C53951 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94564878244B932F00C53951 /* Main.storyboard */; };
 		9456487C244B933000C53951 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9456487B244B933000C53951 /* Assets.xcassets */; };
 		9456487F244B933000C53951 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9456487D244B933000C53951 /* LaunchScreen.storyboard */; };
@@ -23,9 +24,10 @@
 		94433A29244FC065000AB8CE /* Slider Puzzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Slider Puzzle.entitlements"; sourceTree = "<group>"; };
 		9446C587248426B900DEEAFA /* GameBoards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoards.swift; sourceTree = "<group>"; };
 		9446C5892484274800DEEAFA /* GridPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPiece.swift; sourceTree = "<group>"; };
+		9446C58F248442E700DEEAFA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		9456486F244B932F00C53951 /* Slider Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slider Puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94564872244B932F00C53951 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		94564876244B932F00C53951 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		94564876244B932F00C53951 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		94564879244B932F00C53951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9456487B244B933000C53951 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9456487E244B933000C53951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -44,6 +46,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9446C58B2484406F00DEEAFA /* App Setup */ = {
+			isa = PBXGroup;
+			children = (
+				9456487D244B933000C53951 /* LaunchScreen.storyboard */,
+				94564886244B981F00C53951 /* SceneDelegate.swift */,
+				94564872244B932F00C53951 /* AppDelegate.swift */,
+			);
+			path = "App Setup";
+			sourceTree = "<group>";
+		};
+		9446C58C2484408B00DEEAFA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9456487B244B933000C53951 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9446C58D248440A200DEEAFA /* GameViewController */ = {
+			isa = PBXGroup;
+			children = (
+				94564876244B932F00C53951 /* GameViewController.swift */,
+				9446C587248426B900DEEAFA /* GameBoards.swift */,
+				9446C5892484274800DEEAFA /* GridPiece.swift */,
+			);
+			path = GameViewController;
+			sourceTree = "<group>";
+		};
+		9446C58E248442CC00DEEAFA /* MenuViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9446C58F248442E700DEEAFA /* MenuViewController.swift */,
+			);
+			path = MenuViewController;
+			sourceTree = "<group>";
+		};
 		94564866244B932F00C53951 = {
 			isa = PBXGroup;
 			children = (
@@ -63,17 +101,14 @@
 		94564871244B932F00C53951 /* Slider Puzzle */ = {
 			isa = PBXGroup;
 			children = (
-				94433A29244FC065000AB8CE /* Slider Puzzle.entitlements */,
-				94564886244B981F00C53951 /* SceneDelegate.swift */,
-				94564872244B932F00C53951 /* AppDelegate.swift */,
-				94564876244B932F00C53951 /* ViewController.swift */,
-				94564878244B932F00C53951 /* Main.storyboard */,
-				9456487D244B933000C53951 /* LaunchScreen.storyboard */,
-				9456487B244B933000C53951 /* Assets.xcassets */,
 				94564880244B933000C53951 /* Info.plist */,
+				94433A29244FC065000AB8CE /* Slider Puzzle.entitlements */,
+				9446C58C2484408B00DEEAFA /* Resources */,
+				9446C58B2484406F00DEEAFA /* App Setup */,
+				9446C58D248440A200DEEAFA /* GameViewController */,
+				9446C58E248442CC00DEEAFA /* MenuViewController */,
+				94564878244B932F00C53951 /* Main.storyboard */,
 				94229454244D1F4A00404149 /* HapticsHelper.swift */,
-				9446C587248426B900DEEAFA /* GameBoards.swift */,
-				9446C5892484274800DEEAFA /* GridPiece.swift */,
 			);
 			path = "Slider Puzzle";
 			sourceTree = "<group>";
@@ -150,8 +185,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9446C588248426B900DEEAFA /* GameBoards.swift in Sources */,
-				94564877244B932F00C53951 /* ViewController.swift in Sources */,
+				94564877244B932F00C53951 /* GameViewController.swift in Sources */,
 				94564873244B932F00C53951 /* AppDelegate.swift in Sources */,
+				9446C590248442E700DEEAFA /* MenuViewController.swift in Sources */,
 				94229455244D1F4A00404149 /* HapticsHelper.swift in Sources */,
 				9446C58A2484274800DEEAFA /* GridPiece.swift in Sources */,
 				94564887244B981F00C53951 /* SceneDelegate.swift in Sources */,

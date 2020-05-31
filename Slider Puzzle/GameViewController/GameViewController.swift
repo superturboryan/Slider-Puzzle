@@ -8,55 +8,46 @@
 
 import UIKit
 
-public enum Orientation {
-    case Vertical, Horizontal, Single
-}
-
-public enum PieceType {
-    case Square, Rect, BigSquare, Empty
-}
-
 public enum PanDirection: Int {
     case up, down, left, right, undefined
     public var isVertical: Bool { return [.up, .down].contains(self) }
     public var isHorizontal: Bool { return !isVertical }
 }
 
-struct Position {
-    var x: Int
-    var y: Int
-}
-
-class ViewController: UIViewController {
+class GameViewController: UIViewController {
     
     // UI Outlets + Views
+    @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var gameContainerView: UIView!
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var bestLabel: UILabel!
  
-    let kHighScore = "highScore"
+    var kHighScore = "highScore" // Setup with level number in setupView
     
-    let separatorSize: CGFloat = 12
+    let separatorSize: CGFloat = 15
     var squareSize: CGFloat = 0
     
     let gridWidthInSquares: CGFloat = 4
     let gridHeightInSquares: CGFloat = 5
     
-    var grid: [[PieceType]] = Array(repeating: Array(repeating: .Empty, count: 5), count: 4) // 4 x 5 matrix
-    
-    var level: Int = 0
+    var level: Int = 1
     
     var moveCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
     func setupView() {
+        
         squareSize = (gameContainerView.bounds.size.width - ((gridWidthInSquares+1)*separatorSize)) / gridWidthInSquares
         
         gameContainerView.layer.cornerRadius = 10.0
@@ -64,18 +55,26 @@ class ViewController: UIViewController {
         resetButton.layer.cornerRadius = 5.0
         
         self.moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
+        
+        self.levelLabel.text = "Level \(self.level)"
+        
+        kHighScore = "highScore\(self.level)"
+        
         updateBestLabel()
     }
     
-    func setupGameBoard(withGridPieces pieces:[GridPiece]) {
+    func setupGameBoard(withGridPieces pieces:[GamePiece]) {
+        var delay: Double = 0.3
         
         for piece in pieces {
             switch (piece.type) {
-            case .Rect: addRect(toPosition: piece.position, withOrientation: piece.orientation); break;
-            case .BigSquare: addBigSquare(toPosition: piece.position); break;
-            case .Square: addSquare(toPosition: piece.position); break;
-            case .Empty: break;
+                case .Rect: self.addRect(toPosition: piece.position, withOrientation: piece.orientation, andDelay: delay); break;
+                case .BigSquare: self.addBigSquare(toPosition: piece.position, andDelay: delay); break;
+                case .Square: self.addSquare(toPosition: piece.position, andDelay: delay); break;
+                case .Empty: break;
             }
+            
+            delay += 0.3
         }
     }
     
@@ -92,7 +91,8 @@ class ViewController: UIViewController {
         return Position(x: Int(x), y: Int(y))
     }
     
-    func addSquare(toPosition pos: Position) {
+    //MARK: Add pieces
+    func addSquare(toPosition pos: Position, andDelay delay:Double) {
         let size = squareSize
         let point = getCGPointForPosition(pos)
         let square = UIView(frame: CGRect(x: point.x,
@@ -104,10 +104,23 @@ class ViewController: UIViewController {
         
         addGestureRecognizersToPiece(square)
         
-        gameContainerView.addSubview(square)
+        square.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
+        
+        self.gameContainerView.addSubview(square)
+        
+        UIView.animate(withDuration: 0.4,
+                       delay: delay,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0,
+                       options: .curveEaseOut,
+                       animations: {
+                        
+                        square.transform = CGAffineTransform.identity
+                        
+        }) { (success) in /* Add completion here */ }
     }
 
-    func addRect(toPosition pos:Position, withOrientation ori:Orientation) {
+    func addRect(toPosition pos:Position, withOrientation ori:Orientation, andDelay delay:Double) {
         let width = ori == Orientation.Vertical ? squareSize : (2*squareSize) + separatorSize
         let height = ori == Orientation.Vertical ? (2*squareSize) + separatorSize : squareSize
         let point = getCGPointForPosition(pos)
@@ -120,10 +133,23 @@ class ViewController: UIViewController {
         
         addGestureRecognizersToPiece(rect)
         
+        rect.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
+        
         self.gameContainerView.addSubview(rect)
+        
+        UIView.animate(withDuration: 0.4,
+                       delay: delay,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0,
+                       options: .curveEaseOut,
+                       animations: {
+            
+            rect.transform = CGAffineTransform.identity
+            
+        }) { (success) in /* Add completion here */ }
     }
     
-    func addBigSquare(toPosition pos:Position) {
+    func addBigSquare(toPosition pos:Position, andDelay delay:Double) {
         let size = (2*squareSize) + separatorSize
         let point = getCGPointForPosition(pos)
         let square = UIView(frame: CGRect(x: point.x,
@@ -135,9 +161,23 @@ class ViewController: UIViewController {
         
         addGestureRecognizersToPiece(square)
         
+        square.transform = CGAffineTransform.init(scaleX: 0.001, y: 0.001)
+        
         self.gameContainerView.addSubview(square)
+        
+        UIView.animate(withDuration: 0.4,
+                       delay: delay,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0,
+                       options: .curveEaseOut,
+                       animations: {
+                        
+                        square.transform = CGAffineTransform.identity
+                        
+        }) { (success) in /* Add completion here */ }
     }
     
+    //MARK: Gesture Recognizers
     func addGestureRecognizersToPiece(_ piece:UIView) {
         let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
         piece.addGestureRecognizer(tapper)
@@ -169,6 +209,7 @@ class ViewController: UIViewController {
                 view.frame.size.height == (2*squareSize) + separatorSize)
     }
 
+    //MARK: Movement
     func move(_ view:UIView, inDirection direction:PanDirection) {
         
         let newFrame = getNewFrameForView(view, withDirection:direction)
@@ -220,6 +261,7 @@ class ViewController: UIViewController {
                       height: view.frame.size.height)
     }
     
+    //MARK: Movement verification
     func moveIsAllowed(forView view:UIView, withNewFrame newFrame:CGRect) -> Bool {
         return isFrameInContainer(newFrame) &&
                !isPieceTouchingOtherPiece(view, ifMovedToNewFrame: newFrame)
@@ -245,6 +287,7 @@ class ViewController: UIViewController {
         return touching
     }
     
+    //MARK: Movement animation
     func animatePiece(_ view:UIView, toNewFrame newFrame:CGRect) {
         
         UIView .animateKeyframes(withDuration: 0.4,
@@ -289,6 +332,18 @@ class ViewController: UIViewController {
         }) { (finished) in self.tappedReset(UIButton())}
     }
     
+    func shrinkExpandPiece(_ view:UIView) {
+        HapticsHelper.notification(withType: .warning)
+        UIView.animate(withDuration: 0.25, delay: 0, options:.curveEaseOut, animations: {
+            view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }) { (done) in
+            UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+                view.transform = .identity
+            }) { (done) in }
+        }
+    }
+    
+    //MARK: Complete level
     func userBeatLevel() {
         let currentBest = UserDefaults.standard.integer(forKey: kHighScore)
         if (moveCount < currentBest || currentBest == 0) {
@@ -298,7 +353,7 @@ class ViewController: UIViewController {
     }
     
     func updateBestLabel() {
-        bestLabel.attributedText = (UserDefaults.standard.integer(forKey: "highScore") == 0) ?
+        bestLabel.attributedText = (UserDefaults.standard.integer(forKey: kHighScore) == 0) ?
             NSAttributedString(string: "Best: \n🚫😩") :
             NSAttributedString(string: "Best: \n\(UserDefaults.standard.integer(forKey: kHighScore))")
     }
@@ -308,6 +363,7 @@ class ViewController: UIViewController {
         moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
     }
     
+    //MARK: Actions
     @IBAction func tappedReset(_ sender: UIButton) {
         if (moveCount == 0) {
             resetBestPopup()
@@ -321,6 +377,11 @@ class ViewController: UIViewController {
         incrementMoveCountLabel()
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
+    
+    @IBAction func tappedBack(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     func resetBestPopup() {
         let alertVC = UIAlertController(title: "Reset best score", message: "Are you sure you want to do that?", preferredStyle: .alert)
@@ -336,16 +397,6 @@ class ViewController: UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    func shrinkExpandPiece(_ view:UIView) {
-        HapticsHelper.notification(withType: .warning)
-        UIView.animate(withDuration: 0.25, delay: 0, options:.curveEaseOut, animations: {
-            view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }) { (done) in
-            UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
-                view.transform = .identity
-            }) { (done) in }
-        }
-    }
 }
 
 public extension UIPanGestureRecognizer {
