@@ -319,6 +319,7 @@
                     <connections>
                         <outlet property="bestLabel" destination="JEc-Xr-69c" id="bB2-uf-2Er"/>
                         <outlet property="containerBorder" destination="K0E-Yr-BUq" id="VQv-zA-L3S"/>
+                        <outlet property="gameBorderOpening" destination="Gtv-8I-mXX" id="7e4-uh-qlg"/>
                         <outlet property="gameContainerView" destination="tqB-Wo-fxh" id="cS6-va-PkH"/>
                         <outlet property="levelLabel" destination="EpP-hi-ATJ" id="tEo-c9-tsX"/>
                         <outlet property="moveCountLabel" destination="36x-Zv-vSS" id="XZG-7z-lvE"/>

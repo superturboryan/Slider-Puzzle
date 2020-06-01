@@ -20,6 +20,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var gameContainerView: UIView!
+    @IBOutlet weak var gameBorderOpening: UIView!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var bestLabel: UILabel!
@@ -61,6 +62,10 @@ class GameViewController: UIViewController {
     }
     
     func setupView() {
+        self.setupStyleForDarkMode(Settings.tappedDarkToggle() ?
+            Settings.darkMode() : // Use app local setting
+            self.traitCollection.userInterfaceStyle == .dark) // Otherwise use setting from device
+        
         gameContainerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
@@ -70,6 +75,20 @@ class GameViewController: UIViewController {
         self.levelLabel.text = "Level \(self.level)"
         
         updateBestLabel()
+    }
+    
+    func setupStyleForDarkMode(_ dark:Bool) {
+
+        self.view.backgroundColor = dark ? .black : .white
+        self.gameContainerView.backgroundColor = dark ? .black : .white
+        self.gameBorderOpening.backgroundColor = dark ? .black : .white
+        
+        self.containerBorder.backgroundColor = dark ? .systemYellow : .systemTeal
+        
+        self.levelLabel.textColor = dark ? .white : .black
+        self.timerLabel.textColor = dark ? .white : .black
+        self.moveCountLabel.textColor = dark ? .white : .black
+        self.bestLabel.textColor = dark ? .white : .black
     }
     
     func setupGameBoard(withGridPieces pieces:[GamePiece]) {
