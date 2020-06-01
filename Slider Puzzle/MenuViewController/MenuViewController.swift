@@ -24,6 +24,12 @@ class MenuViewController: UIViewController {
         self.setupView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.checkForUnlockedLevels()
+    }
+    
+    //MARK: View setup
     func setupView() {
         
         self.setupStyleForDarkMode(Settings.tappedDarkToggle() ?
@@ -33,6 +39,13 @@ class MenuViewController: UIViewController {
         self.darkModeSegmentControl.selectedSegmentIndex = Settings.tappedDarkToggle() ?
             (Settings.darkMode() ? 1 : 0) : // Use setting from App if switch has been toggled before
             (self.traitCollection.userInterfaceStyle == .dark ? 1 : 0) // Or default to setting from
+        
+        self.stackOfStackOfButtons.subviews.forEach { (stack) in
+            let substack = stack as! UIStackView
+            substack.subviews.forEach { (button) in
+                button.layer.cornerRadius = 10.0
+            }
+        }
     }
     
     func setupStyleForDarkMode(_ dark:Bool) {
@@ -52,18 +65,11 @@ class MenuViewController: UIViewController {
             }
         }
     }
-
-    // MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "goToGame") {
-            let gameVC: GameViewController = segue.destination as! GameViewController
-            gameVC.level = self.selectedLevel
-        }
-    }
     
+    //MARK: Actions
     @IBAction func tappedStartLevel(_ button: UIButton) {
         self.selectedLevel = button.tag
-        
+        HapticsHelper.selection()
         self.performSegue(withIdentifier: "goToGame", sender: self)
     }
     
@@ -73,6 +79,40 @@ class MenuViewController: UIViewController {
         Settings.setDarkMode(dark)
         self.setupStyleForDarkMode(dark)
     }
+
+    // MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "goToGame") {
+            let gameVC: GameViewController = segue.destination as! GameViewController
+            gameVC.level = self.selectedLevel
+        }
+    }
     
-    
+    func checkForUnlockedLevels() {
+     
+        var locked: [Int] = Array()
+        for i in 2...9 {
+            let highScore = Settings.highScore(forLevel: i-1)
+            if highScore == 0 {
+                locked.append(i)
+            }
+        }
+        
+        self.stackOfStackOfButtons.subviews.forEach { (stack) in
+            
+            let substack = stack as! UIStackView
+            
+            substack.subviews.forEach { (button) in
+                
+                let butt = button as! UIButton
+                if (locked.contains(button.tag)) {
+                    butt.setTitle("🔒", for: .normal)
+                }
+                else {
+                    butt.setTitle("\(butt.tag)", for: .normal)
+                }
+            }
+        }
+        
+    }
 }

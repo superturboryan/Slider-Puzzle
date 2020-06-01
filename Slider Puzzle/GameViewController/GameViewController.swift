@@ -16,7 +16,7 @@ public enum PanDirection: Int {
 
 class GameViewController: UIViewController {
     
-    // UI Outlets + Views
+    //MARK: Outlets
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var containerBorder: UIView!
     @IBOutlet weak var gameContainerView: UIView!
@@ -25,20 +25,21 @@ class GameViewController: UIViewController {
     @IBOutlet weak var moveCountLabel: UILabel!
     @IBOutlet weak var bestLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
-    
+ 
+    //MARK: Game related
     var gameTimer: Timer?
     var gameTime: Double = 0
  
+    var level: Int = 1
+    var moveCount = 0
+    
     let separatorSize: CGFloat = 15
     var squareSize: CGFloat = 0
     
     let gridWidthInSquares: CGFloat = 4
     let gridHeightInSquares: CGFloat = 5
     
-    var level: Int = 1
-    
-    var moveCount = 0
-    
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -46,22 +47,12 @@ class GameViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         squareSize = (gameContainerView.bounds.size.width - ((gridWidthInSquares+1)*separatorSize)) / gridWidthInSquares
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
-    func restartTimer() {
-        self.gameTime = 0
-        timerLabel.text = "Timer: \n\(Int(self.gameTime))"
-        
-        self.gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
-            self.gameTime += 1
-            self.timerLabel.text = "Timer: \n\(Int(self.gameTime))"
-        })
-    }
-    
     func setupView() {
+        
         self.setupStyleForDarkMode(Settings.tappedDarkToggle() ?
             Settings.darkMode() : // Use app local setting
             self.traitCollection.userInterfaceStyle == .dark) // Otherwise use setting from device
@@ -388,6 +379,16 @@ class GameViewController: UIViewController {
         
         moveCount += 1
         moveCountLabel.attributedText = NSAttributedString(string: "Moves: \n\(moveCount)")
+    }
+    
+    func restartTimer() {
+        self.gameTime = 0
+        timerLabel.text = "Timer: \n\(Int(self.gameTime))"
+        
+        self.gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+            self.gameTime += 1
+            self.timerLabel.text = "Timer: \n\(Int(self.gameTime))"
+        })
     }
     
     //MARK: Actions
