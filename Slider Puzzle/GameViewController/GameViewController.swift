@@ -28,8 +28,6 @@ class GameViewController: UIViewController {
     var gameTimer: Timer?
     var gameTime: Double = 0
  
-    var kHighScore = "highScore" // Setup with level number in setupView
-    
     let separatorSize: CGFloat = 15
     var squareSize: CGFloat = 0
     
@@ -42,11 +40,13 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupView()
+        
+        squareSize = (gameContainerView.bounds.size.width - ((gridWidthInSquares+1)*separatorSize)) / gridWidthInSquares
         setupGameBoard(withGridPieces: GameBoards.getBoard(forLevel: self.level))
     }
     
@@ -61,9 +61,6 @@ class GameViewController: UIViewController {
     }
     
     func setupView() {
-        
-        squareSize = (gameContainerView.bounds.size.width - ((gridWidthInSquares+1)*separatorSize)) / gridWidthInSquares
-        
         gameContainerView.layer.cornerRadius = 10.0
         containerBorder.layer.cornerRadius = 10.0
         resetButton.layer.cornerRadius = 5.0
@@ -89,7 +86,7 @@ class GameViewController: UIViewController {
                 case .Empty: self.addEmptySpot(toPosition: piece.position, andDelay: delay); break;
             }
             
-            delay += 0.3
+            delay += 0.1
         }
     }
     
@@ -416,6 +413,7 @@ class GameViewController: UIViewController {
 }
 
 public extension UIPanGestureRecognizer {
+    
     var direction: PanDirection? {
         let velocity = self.velocity(in: view)
         let isVertical = abs(velocity.y) > abs(velocity.x)

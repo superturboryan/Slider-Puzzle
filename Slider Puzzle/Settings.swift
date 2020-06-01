@@ -18,6 +18,20 @@ class Settings: NSObject { // Interactor style object to access settings stored 
         UserDefaults.standard.set(value, forKey: "highScore\(level)")
     }
     
+    static func tappedDarkToggle() -> Bool {
+        return UserDefaults.standard.bool(forKey: "tappedDarkToggle")
+    }
     
+    static func setTappedDarkModeToggle(_ val:Bool) {
+        UserDefaults.standard.set(val, forKey: "tappedDarkToggle")
+    }
+    
+    static func setDarkMode(_ val:Bool) {
+        UserDefaults.standard.set(val, forKey: "darkMode")
+    }
+    
+    static func darkMode() -> Bool {
+        return UserDefaults.standard.bool(forKey: "darkMode")
+    }
 
 }

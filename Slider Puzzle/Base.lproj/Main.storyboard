@@ -166,6 +166,9 @@
                                     <segment title="Lights On"/>
                                     <segment title="Lights Off"/>
                                 </segments>
+                                <connections>
+                                    <action selector="darkModeControlChanged:" destination="OUC-wB-z7N" eventType="valueChanged" id="hCe-vV-Wmt"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -187,7 +190,10 @@
                         <viewLayoutGuide key="safeArea" id="7va-GQ-ZAu"/>
                     </view>
                     <connections>
+                        <outlet property="chooseLevelLabel" destination="cMg-dH-NBk" id="fC4-Oo-kz3"/>
                         <outlet property="darkModeSegmentControl" destination="1jn-bX-pkt" id="ZhP-PD-Gpr"/>
+                        <outlet property="stackOfStackOfButtons" destination="fpb-8R-VZv" id="oiJ-2K-JuI"/>
+                        <outlet property="titleLabel" destination="eRk-te-eLP" id="TTz-nO-bpx"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToGame" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="esI-Ik-rnj"/>
                     </connections>
                 </viewController>
