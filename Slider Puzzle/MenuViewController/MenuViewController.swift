@@ -14,6 +14,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var chooseLevelLabel: UILabel!
     @IBOutlet weak var stackOfStackOfButtons: UIStackView!
+    @IBOutlet weak var allDoneLabel: UILabel!
     @IBOutlet weak var darkModeSegmentControl: UISegmentedControl!
     
     var selectedLevel: Int = 0
@@ -27,6 +28,8 @@ class MenuViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.checkForUnlockedLevels()
+        
+        self.checkForCompletedLevels()
     }
     
     //MARK: View setup
@@ -54,6 +57,7 @@ class MenuViewController: UIViewController {
             self.view.backgroundColor = dark ? .black : .white
             self.titleLabel.textColor = dark ? .white : .black
             self.chooseLevelLabel.textColor = dark ? .white : .black
+            self.allDoneLabel.textColor = dark ? .white : .black
             
             self.stackOfStackOfButtons.subviews.forEach { (stack) in
                 let substack = stack as! UIStackView
@@ -106,13 +110,39 @@ class MenuViewController: UIViewController {
         }
         
         self.stackOfStackOfButtons.subviews.forEach { (stack) in
-            
             let substack = stack as! UIStackView
             substack.subviews.forEach { (button) in
                 let butt = button as! UIButton
                 butt.setTitle(locked.contains(button.tag) ? "🔒" : "\(butt.tag)" , for: .normal)
             }
         }
+    }
+    
+    func checkForCompletedLevels() {
         
+        var completed: [Int] = Array()
+        for i in 1...9 {
+            let highScore = Settings.highScore(forLevel: i)
+            if highScore != 0 {
+                completed.append(i)
+            }
+        }
+        
+        self.stackOfStackOfButtons.subviews.forEach { (stack) in
+            let substack = stack as! UIStackView
+            substack.subviews.forEach { (button) in
+                let butt = button as! UIButton
+                if (completed.contains(butt.tag) && butt.subviews.count == 1) {
+                    let greencircle = UIView(frame: CGRect(x: 10, y: 10, width: 10, height: 10))
+                    greencircle.backgroundColor = .systemGreen
+                    greencircle.layer.cornerRadius = greencircle.frame.size.height/2
+                    butt.addSubview(greencircle)
+                }
+            }
+        }
+        
+        if (completed.count == 9) {
+            self.allDoneLabel.isHidden = false;
+        }
     }
 }

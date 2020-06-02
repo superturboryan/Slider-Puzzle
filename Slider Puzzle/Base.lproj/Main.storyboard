@@ -170,6 +170,14 @@
                                     <action selector="darkModeControlChanged:" destination="OUC-wB-z7N" eventType="valueChanged" id="hCe-vV-Wmt"/>
                                 </connections>
                             </segmentedControl>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMr-tO-PZZ">
+                                <rect key="frame" x="46" y="511" width="283.5" height="36"/>
+                                <string key="text">Congratulations 👏 
+All levels completed, stay tuned for more!</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -180,8 +188,10 @@
                             <constraint firstItem="eRk-te-eLP" firstAttribute="top" secondItem="7va-GQ-ZAu" secondAttribute="top" constant="50" id="BQ9-dd-frL"/>
                             <constraint firstItem="cMg-dH-NBk" firstAttribute="centerX" secondItem="Z8D-68-Jka" secondAttribute="centerX" id="CYc-ae-949"/>
                             <constraint firstItem="7va-GQ-ZAu" firstAttribute="trailing" secondItem="eRk-te-eLP" secondAttribute="trailing" constant="10" id="HA7-kY-mzi"/>
+                            <constraint firstItem="LMr-tO-PZZ" firstAttribute="top" secondItem="fpb-8R-VZv" secondAttribute="bottom" constant="20" id="Hee-1g-XQQ"/>
                             <constraint firstItem="eRk-te-eLP" firstAttribute="centerX" secondItem="Z8D-68-Jka" secondAttribute="centerX" id="Lb3-kI-uoy"/>
                             <constraint firstItem="cMg-dH-NBk" firstAttribute="top" secondItem="eRk-te-eLP" secondAttribute="bottom" constant="40" id="OJO-h1-4y4"/>
+                            <constraint firstItem="LMr-tO-PZZ" firstAttribute="centerX" secondItem="Z8D-68-Jka" secondAttribute="centerX" id="Ux4-Ay-yht"/>
                             <constraint firstItem="7va-GQ-ZAu" firstAttribute="trailing" secondItem="fpb-8R-VZv" secondAttribute="trailing" constant="40" id="WQf-qc-7bI"/>
                             <constraint firstItem="eRk-te-eLP" firstAttribute="leading" secondItem="7va-GQ-ZAu" secondAttribute="leading" constant="10" id="ZMe-52-0pF"/>
                             <constraint firstItem="1jn-bX-pkt" firstAttribute="centerX" secondItem="Z8D-68-Jka" secondAttribute="centerX" id="cEV-vF-Hne"/>
@@ -190,6 +200,7 @@
                         <viewLayoutGuide key="safeArea" id="7va-GQ-ZAu"/>
                     </view>
                     <connections>
+                        <outlet property="allDoneLabel" destination="LMr-tO-PZZ" id="6FD-4w-1ay"/>
                         <outlet property="chooseLevelLabel" destination="cMg-dH-NBk" id="fC4-Oo-kz3"/>
                         <outlet property="darkModeSegmentControl" destination="1jn-bX-pkt" id="ZhP-PD-Gpr"/>
                         <outlet property="stackOfStackOfButtons" destination="fpb-8R-VZv" id="oiJ-2K-JuI"/>
