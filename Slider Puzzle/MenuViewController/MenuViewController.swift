@@ -26,7 +26,7 @@ class MenuViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        self.checkForUnlockedLevels()
+        self.checkForUnlockedLevels()
     }
     
     //MARK: View setup
@@ -105,14 +105,8 @@ class MenuViewController: UIViewController {
             
             let substack = stack as! UIStackView
             substack.subviews.forEach { (button) in
-                
                 let butt = button as! UIButton
-                if (locked.contains(button.tag)) {
-                    butt.setTitle("🔒", for: .normal)
-                }
-                else {
-                    butt.setTitle("\(butt.tag)", for: .normal)
-                }
+                butt.setTitle(locked.contains(button.tag) ? "🔒" : "\(butt.tag)" , for: .normal)
             }
         }
         
