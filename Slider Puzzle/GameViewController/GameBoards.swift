@@ -45,30 +45,13 @@ class GameBoards: NSObject {
             GamePiece(position: Position(x: 0, y: 0), type: .Rect, orientation: .Vertical),
             GamePiece(position: Position(x: 1, y: 0), type: .BigSquare, orientation: .Single),
             GamePiece(position: Position(x: 3, y: 0), type: .Rect, orientation: .Vertical),
-            GamePiece(position: Position(x: 0, y: 2), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 1, y: 2), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 2, y: 2), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 3, y: 2), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 0, y: 3), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 1, y: 3), type: .Rect, orientation: .Horizontal),
-            GamePiece(position: Position(x: 3, y: 3), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 0, y: 4), type: .Square, orientation: .Single),
-            GamePiece(position: Position(x: 3, y: 4), type: .Square, orientation: .Single),
-        ],
-        
-        // FOURTH LEVEL
-        [
-            GamePiece(position: Position(x: 0, y: 0), type: .Rect, orientation: .Vertical),
-            GamePiece(position: Position(x: 1, y: 0), type: .BigSquare, orientation: .Single),
-            GamePiece(position: Position(x: 3, y: 0), type: .Rect, orientation: .Vertical),
             GamePiece(position: Position(x: 2, y: 2), type: .Square, orientation: .Single),
             GamePiece(position: Position(x: 3, y: 2), type: .Square, orientation: .Single),
             GamePiece(position: Position(x: 0, y: 3), type: .Rect, orientation: .Horizontal),
             GamePiece(position: Position(x: 2, y: 3), type: .Rect, orientation: .Horizontal),
         ],
         
-        // FIFTH
-        
+        // FOURTH LEVEL
         [
             GamePiece(position: Position(x: 0, y: 0), type: .BigSquare, orientation: .Single),
             GamePiece(position: Position(x: 2, y: 0), type: .Rect, orientation: .Horizontal),
@@ -80,8 +63,7 @@ class GameBoards: NSObject {
             GamePiece(position: Position(x: 2, y: 4), type: .Rect, orientation: .Horizontal),
         ],
         
-        // SIXTH
-        
+        // FIFTH
         [
             GamePiece(position: Position(x: 0, y: 1), type: .BigSquare, orientation: .Single),
             GamePiece(position: Position(x: 2, y: 1), type: .Rect, orientation: .Horizontal),
@@ -94,8 +76,7 @@ class GameBoards: NSObject {
             GamePiece(position: Position(x: 1, y: 4), type: .Square, orientation: .Single),
         ],
         
-        // SEVENTH ****
-        
+        // SIXTH
         [
             GamePiece(position: Position(x: 0, y: 0), type: .Square, orientation: .Single),
             GamePiece(position: Position(x: 1, y: 0), type: .Square, orientation: .Single),
@@ -108,16 +89,48 @@ class GameBoards: NSObject {
             GamePiece(position: Position(x: 3, y: 4), type: .Square, orientation: .Single),
         ],
         
-        // EIGTH
-        
+        // SEVENTH ****
         [
+            GamePiece(position: Position(x: 0, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 1), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 0), type: .BigSquare, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 2), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 4), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 4), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 3), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 2), type: .Rect, orientation: .Vertical),
+            GamePiece(position: Position(x: 2, y: 2), type: .Rect, orientation: .Vertical),
+            GamePiece(position: Position(x: 3, y: 1), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 3), type: .Square, orientation: .Single),
+        ],
         
+        // EIGHTH
+        [
+            GamePiece(position: Position(x: 0, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 2, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 3), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 3), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 2), type: .BigSquare, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 4), type: .Rect, orientation: .Horizontal),
+            GamePiece(position: Position(x: 0, y: 4), type: .Square, orientation: .Single),
         ],
         
         // NINTH
-        
         [
-        
+            GamePiece(position: Position(x: 0, y: 0), type: .Rect, orientation: .Vertical),
+            GamePiece(position: Position(x: 1, y: 0), type: .BigSquare, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 0), type: .Rect, orientation: .Vertical),
+            GamePiece(position: Position(x: 0, y: 2), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 2), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 2, y: 2), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 2), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 3), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 3), type: .Rect, orientation: .Horizontal),
+            GamePiece(position: Position(x: 3, y: 3), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 4), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 3, y: 4), type: .Square, orientation: .Single),
         ],
         
         // END OF LEVELS
