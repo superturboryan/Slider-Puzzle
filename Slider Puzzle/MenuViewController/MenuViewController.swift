@@ -26,7 +26,7 @@ class MenuViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.checkForUnlockedLevels()
+//        self.checkForUnlockedLevels()
     }
     
     //MARK: View setup
@@ -68,6 +68,7 @@ class MenuViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func tappedStartLevel(_ button: UIButton) {
+        if (button.title(for: .normal) == "🔒") { return; }
         self.selectedLevel = button.tag
         HapticsHelper.selection()
         self.performSegue(withIdentifier: "goToGame", sender: self)
@@ -82,10 +83,12 @@ class MenuViewController: UIViewController {
 
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if (segue.identifier == "goToGame") {
             let gameVC: GameViewController = segue.destination as! GameViewController
             gameVC.level = self.selectedLevel
         }
+        
     }
     
     func checkForUnlockedLevels() {
@@ -101,7 +104,6 @@ class MenuViewController: UIViewController {
         self.stackOfStackOfButtons.subviews.forEach { (stack) in
             
             let substack = stack as! UIStackView
-            
             substack.subviews.forEach { (button) in
                 
                 let butt = button as! UIButton

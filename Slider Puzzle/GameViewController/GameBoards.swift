@@ -94,10 +94,18 @@ class GameBoards: NSObject {
             GamePiece(position: Position(x: 1, y: 4), type: .Square, orientation: .Single),
         ],
         
-        // SEVENTH
+        // SEVENTH ****
         
         [
-        
+            GamePiece(position: Position(x: 0, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 0), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 2, y: 0), type: .BigSquare, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 1), type: .Empty, orientation: .Single),
+            GamePiece(position: Position(x: 1, y: 2), type: .Rect, orientation: .Vertical),
+            GamePiece(position: Position(x: 3, y: 2), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 3), type: .Square, orientation: .Single),
+            GamePiece(position: Position(x: 0, y: 4), type: .Rect, orientation: .Horizontal),
+            GamePiece(position: Position(x: 3, y: 4), type: .Square, orientation: .Single),
         ],
         
         // EIGTH
