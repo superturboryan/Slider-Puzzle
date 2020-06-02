@@ -352,7 +352,12 @@ class GameViewController: UIViewController {
         UIView.animate(withDuration: 0.25, delay: 0, options:.curveEaseOut, animations: {
             view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }) { (done) in
-            UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.35,
+                           delay: 0,
+                           usingSpringWithDamping: 0.6,
+                           initialSpringVelocity: 0.2,
+                           options: .curveEaseOut,
+                           animations: {
                 view.transform = .identity
             }) { (done) in }
         }

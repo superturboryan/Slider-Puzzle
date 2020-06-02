@@ -68,13 +68,17 @@ class MenuViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func tappedStartLevel(_ button: UIButton) {
-        if (button.title(for: .normal) == "🔒") { return; }
+        if (button.title(for: .normal) == "🔒") {
+            HapticsHelper.notification(withType: .warning)
+            return;
+        }
         self.selectedLevel = button.tag
         HapticsHelper.selection()
         self.performSegue(withIdentifier: "goToGame", sender: self)
     }
     
     @IBAction func darkModeControlChanged(_ sender: Any) {
+        HapticsHelper.impact(withType: .soft)
         let dark = self.darkModeSegmentControl.selectedSegmentIndex == 1 ? true : false
         Settings.setTappedDarkModeToggle(true)
         Settings.setDarkMode(dark)
