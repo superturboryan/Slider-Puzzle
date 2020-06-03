@@ -156,15 +156,15 @@
                                 </constraints>
                             </stackView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1jn-bX-pkt">
-                                <rect key="frame" x="100" y="588" width="175" height="32"/>
+                                <rect key="frame" x="100" y="579" width="175" height="41"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="ivu-gM-Ite"/>
-                                    <constraint firstAttribute="height" constant="31" id="vvj-WS-5u8"/>
+                                    <constraint firstAttribute="height" constant="40" id="vvj-WS-5u8"/>
                                 </constraints>
                                 <segments>
-                                    <segment title="Lights On"/>
-                                    <segment title="Off"/>
+                                    <segment title="💡"/>
+                                    <segment title="🕶"/>
                                 </segments>
                                 <connections>
                                     <action selector="darkModeControlChanged:" destination="OUC-wB-z7N" eventType="valueChanged" id="hCe-vV-Wmt"/>

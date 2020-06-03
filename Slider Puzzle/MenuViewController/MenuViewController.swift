@@ -43,6 +43,7 @@ class MenuViewController: UIViewController {
             (Settings.darkMode() ? 1 : 0) : // Use setting from App if switch has been toggled before
             (self.traitCollection.userInterfaceStyle == .dark ? 1 : 0) // Or default to setting from
         
+        // Corner radii
         self.stackOfStackOfButtons.subviews.forEach { (stack) in
             let substack = stack as! UIStackView
             substack.subviews.forEach { (button) in
