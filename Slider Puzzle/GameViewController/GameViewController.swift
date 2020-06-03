@@ -116,30 +116,30 @@ class GameViewController: UIViewController {
     //MARK: Add pieces
     func addEmptySpot(toPosition pos: Position, andDelay delay:Double) {
         let size = squareSize
-        let point = getCGPointForPosition(pos)
-        let emptySpot = UIView(frame: CGRect(x: point.x,
-                                          y: point.y,
+        let origin = getCGPointForPosition(pos)
+        let emptySpot = UIView(frame: CGRect(x: origin.x,
+                                          y: origin.y,
                                           width: size,
                                           height: size))
         emptySpot.backgroundColor = .systemGray3
         emptySpot.layer.cornerRadius = 10.0
         
-//        addGestureRecognizersToPiece(emptySpot) // These spots are unmoveable
+//        makePieceMoveable(emptySpot) // These spots are unmoveable
         
         self.popInGamePiece(emptySpot, withDelay: delay)
     }
     
     func addSquare(toPosition pos: Position, andDelay delay:Double) {
         let size = squareSize
-        let point = getCGPointForPosition(pos)
-        let square = UIView(frame: CGRect(x: point.x,
-                                          y: point.y,
+        let origin = getCGPointForPosition(pos)
+        let square = UIView(frame: CGRect(x: origin.x,
+                                          y: origin.y,
                                           width: size,
                                           height: size))
         square.backgroundColor = .systemGreen
         square.layer.cornerRadius = 10.0
         
-        addGestureRecognizersToPiece(square)
+        makePieceMoveable(square)
         
         self.popInGamePiece(square, withDelay: delay)
     }
@@ -147,30 +147,30 @@ class GameViewController: UIViewController {
     func addRect(toPosition pos:Position, withOrientation ori:Orientation, andDelay delay:Double) {
         let width = ori == Orientation.Vertical ? squareSize : (2*squareSize) + separatorSize
         let height = ori == Orientation.Vertical ? (2*squareSize) + separatorSize : squareSize
-        let point = getCGPointForPosition(pos)
-        let rect = UIView(frame: CGRect(x: point.x,
-                                        y: point.y,
+        let origin = getCGPointForPosition(pos)
+        let rect = UIView(frame: CGRect(x: origin.x,
+                                        y: origin.y,
                                         width: width,
                                         height: height))
         rect.backgroundColor = .systemRed
         rect.layer.cornerRadius = 10.0
         
-        addGestureRecognizersToPiece(rect)
+        makePieceMoveable(rect)
         
         self.popInGamePiece(rect, withDelay: delay)
     }
     
     func addBigSquare(toPosition pos:Position, andDelay delay:Double) {
         let size = (2*squareSize) + separatorSize
-        let point = getCGPointForPosition(pos)
-        let square = UIView(frame: CGRect(x: point.x,
-                                          y: point.y,
+        let origin = getCGPointForPosition(pos)
+        let square = UIView(frame: CGRect(x: origin.x,
+                                          y: origin.y,
                                           width: size,
                                           height: size))
         square.backgroundColor = .systemIndigo
         square.layer.cornerRadius = 10.0
         
-        addGestureRecognizersToPiece(square)
+        makePieceMoveable(square)
         
         self.popInGamePiece(square, withDelay: delay)
     }
@@ -193,7 +193,7 @@ class GameViewController: UIViewController {
     }
     
     //MARK: Gesture Recognizers
-    func addGestureRecognizersToPiece(_ piece:UIView) {
+    func makePieceMoveable(_ piece:UIView) {
         let tapper = UITapGestureRecognizer(target: self, action:#selector(tappedView(_:)))
         piece.addGestureRecognizer(tapper)
         
